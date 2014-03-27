@@ -9,7 +9,7 @@ Including:
 
 ## Installation
 
-    cordova plugin add com.zengularity.cordova.hockeyapp
+    cordova plugin add https://github.com/peutetre/cordova-plugin-hockeyapp.git
 
 ## Supported Platforms
 
@@ -25,3 +25,11 @@ Initialize HockeyApp SDK
 - hockeyapp.feedback(sucess:function, error:function):void
 
 Display tester feedback UI
+
+## Android tips
+
+Listen to the `backbutton` event to fix the backbutton on the feedback UI like:
+
+```javascript
+document.addEventListener("backbutton", function () { }, false);
+```

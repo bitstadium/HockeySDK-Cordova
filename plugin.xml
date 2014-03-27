@@ -30,7 +30,17 @@
             </feature>
         </config-file>
 
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="net.hockeyapp.android.FeedbackActivity" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
+
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
+        <source-file src="src/android/HockeySDK-Android/libs/HockeySDK-3.0.1.jar" target-dir="libs" framework="true" />
     </platform>
 
     <!-- ios -->
