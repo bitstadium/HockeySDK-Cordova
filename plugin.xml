@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+           id="com.zengularity.cordova.hockeyapp"
+      version="0.0.0">
+    <name>HockeyApp</name>
+    <description>Cordova HockeyApp Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,hockeyapp</keywords>
+    <author>Paul Panserrieu</author>
+
+    <repo>https://github.com/peutetre/cordova-plugin-hockeyapp.git</repo>
+    <issue>https://github.com/peutetre/cordova-plugin-hockeyapp/issues</issue>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/hockeyapp.js" name="HockeyApp">
+        <clobbers target="hockeyapp" />
+    </js-module>
+
+    <access origin="*.hockeyapp.net" />
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="HockeyApp">
+            <param name="android-package" value="com.zengularity.cordova.hockeyapp.HockeyApp"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="HockeyApp">
+                <param name="ios-package" value="HockeyApp"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/HockeyApp.h" />
+        <source-file src="src/ios/HockeyApp.m" />
+        <resource-file src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
+
+        <framework src="CoreText.framework" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="Foundation.framework" />
+        <framework src="Security.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="UIKit.framework" />
+
+        <framework src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework" custom="true" />
+
+    </platform>
+
+</plugin>
