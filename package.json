@@ -1,0 +1,35 @@
+{
+  "name": "cordova-plugin-hockeyapp",
+  "version": "0.1.0",
+  "description": "Cordova HockeyApp Plugin",
+  "cordova": {
+    "id": "com.zengularity.cordova.hockeyapp",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peutetre/cordova-plugin-hockeyapp.git"
+  },
+  "keywords": [
+    "cordova",
+    "hockeyapp",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Paul Panserrieu <paul@42loops.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/peutetre/cordova-plugin-hockeyapp/issues"
+  },
+  "homepage": "https://github.com/peutetre/cordova-plugin-hockeyapp#readme"
+}
