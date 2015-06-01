@@ -32,6 +32,7 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity android:name="net.hockeyapp.android.FeedbackActivity" />
+            <activity android:name="net.hockeyapp.android.UpdateActivity" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
