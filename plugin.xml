@@ -56,11 +56,14 @@
         <source-file src="src/ios/HockeyApp.m" />
         <resource-file src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
 
+        <framework src="AssetsLibrary.framework" />
         <framework src="CoreText.framework" />
         <framework src="CoreGraphics.framework" />
         <framework src="Foundation.framework" />
-        <framework src="Security.framework" />
+        <framework src="MobileCoreServices.framework" />
         <framework src="QuartzCore.framework" />
+        <framework src="QuickLook.framework" />
+        <framework src="Security.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="UIKit.framework" />
 
