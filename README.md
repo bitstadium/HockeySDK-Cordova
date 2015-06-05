@@ -26,6 +26,10 @@ Initialize HockeyApp SDK
 
 Display tester feedback UI
 
+- hockeyapp.versionChcek(sucess:function, error:function):void
+
+Check for a new vesion and notify the user if a newer version is available
+
 ## Android tips
 
 Listen to the `backbutton` event to fix the backbutton on the feedback UI like:
