@@ -7,5 +7,6 @@
 
 - (void)start:(CDVInvokedUrlCommand*)command;
 - (void)feedback:(CDVInvokedUrlCommand*)command;
+- (void)versionCheck:(CDVInvokedUrlCommand*)command;
 
 @end
