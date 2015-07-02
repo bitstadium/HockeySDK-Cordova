@@ -101,7 +101,7 @@ typedef NS_ENUM(NSUInteger, BITAuthenticatorAppRestrictionEnforcementFrequency) 
    */
   BITAuthenticatorAppRestrictionEnforcementOnFirstLaunch,
   /**
-   * Checks if the user is allowed to use the app everytime the app becomes active
+   * Checks if the user is allowed to use the app every time the app becomes active
    */
   BITAuthenticatorAppRestrictionEnforcementOnAppActive,
 };
@@ -198,14 +198,6 @@ typedef NS_ENUM(NSUInteger, BITAuthenticatorAppRestrictionEnforcementFrequency) 
  */
 @property (nonatomic, copy) NSString *authenticationSecret;
 
-/**
- * Delegate that can be used to do any last minute configurations on the 
- * presented viewController.
- *
- * @see BITAuthenticatorDelegate
- */
-@property (nonatomic, weak) id<BITAuthenticatorDelegate> delegate;
-
 
 #pragma mark - Device based identification
 
@@ -229,7 +221,7 @@ typedef NS_ENUM(NSUInteger, BITAuthenticatorAppRestrictionEnforcementFrequency) 
 - (NSURL*) deviceAuthenticationURL;
 
 /**
- * The url-scheme used to idenfify via `BITAuthenticatorIdentificationTypeDevice`
+ * The url-scheme used to identify via `BITAuthenticatorIdentificationTypeDevice`
  *
  * Please make sure that the URL scheme is unique and not shared with other apps.
  *

@@ -71,25 +71,13 @@
 
 
 /**
- * If true, include support for handling in-app udpates for Ad-Hoc and Enterprise builds
+ * If true, include support for handling in-app updates for Ad-Hoc and Enterprise builds
  *
  * _Default_: Enabled
  */
 #ifndef HOCKEYSDK_FEATURE_UPDATES
 #    define HOCKEYSDK_FEATURE_UPDATES 1
 #endif /* HOCKEYSDK_FEATURE_UPDATES */
-
-
-/**
- * If true, include support for the Jira Mobile Connect SDK.
- *
- * @warning This requires Crash Reporting and Update Manager to be included!
- *
- * _Default_: Disabled
- */
-#ifndef HOCKEYSDK_FEATURE_JIRA_MOBILE_CONNECT
-#    define HOCKEYSDK_FEATURE_JIRA_MOBILE_CONNECT 0
-#endif /* HOCKEYSDK_FEATURE_JIRA_MOBILE_CONNECT */
 
 
 #endif /* HockeySDK_HockeySDKFeatureConfig_h */

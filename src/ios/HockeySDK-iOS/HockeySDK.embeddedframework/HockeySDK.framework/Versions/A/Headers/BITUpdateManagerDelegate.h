@@ -106,6 +106,35 @@
 - (BOOL)updateManagerShouldSendUsageData:(BITUpdateManager *)updateManager;
 
 
+///-----------------------------------------------------------------------------
+/// @name Privacy
+///-----------------------------------------------------------------------------
+
+/** Implement this method to be notified before an update starts.
+ 
+ The update manager will send this delegate message _just_ before the system
+ call to update the application is placed, but after the user has already chosen
+ to install the update.
+ 
+ There is no guarantee that the update will actually start after this delegate
+ message is sent.
+
+ @param updateManager The `BITUpdateManager` instance invoking this delegate
+ */
+- (BOOL)willStartDownloadAndUpdate:(BITUpdateManager *)updateManager;
+
+/**
+ Invoked right before the app will exit to allow app update to start (>= iOS8 only)
+ 
+ The iOS installation mechanism only starts if the app the should be updated is currently
+ not running. On all iOS versions up to iOS 7, the system did automatically exit the app
+ in these cases. Since iOS 8 this isn't done any longer.
+ 
+ @param updateManager The `BITUpdateManager` instance invoking this delegate
+ */
+- (void)updateManagerWillExitApp:(BITUpdateManager *)updateManager;
+
+
 #pragma mark - Deprecated
 
 ///-----------------------------------------------------------------------------

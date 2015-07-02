@@ -1,3 +1,151 @@
+## Version 3.7.1
+
+- [BUGFIX] `CocoaPods`: Fixes the default podspec with binary distribution
+- [BUGFIX] `CocoaPods`: Changes `HockeySDK-Source` to use non configurable approach, since we couldn't make it work reliably in all scenarios
+
+## Version 3.7.0
+
+- [NEW] Simplified installation process. If support for modules is enabled in the target project (default for most projects), it’s no longer necessary to add the frameworks manually
+- [NEW] `CocoaPods`: Default pod uses binary distribution and offers crash only build as a subspec
+- [NEW] `CocoaPods`: New `HockeySDK-Source` pod integrates via source code and offers feature set customization via subspecs. Note: We do not support building with Xcode 7 yet!
+- [NEW] `BITCrashManager`: Added support for unhandled C++ exceptions (requires to link `libc++`)
+- [NEW] `BITCrashManager`: Sending crash reports via `NSURLSession` whenever possible
+- [NEW] `BITCrashManager`: Added process ID to `BITCrashDetails`
+- [NEW] `BITCrashManager`: Added `CFBundleShortVersionString` value to crash reports
+- [NEW] `BITFeedbackManager`: "Add Image" button in feedback compose view can now be hidden using `feedbackComposeHideImageAttachmentButton` property
+- [NEW] `BITFeedbackManagerDelegate`: Added `allowAutomaticFetchingForNewFeedbackForManager:` to define if the SDK should fetch new messages on app startup and when the app is coming into foreground. 
+- [NEW] Added disableInstallTracking property to disable installation tracking (AppStore only).
+- [UPDATE] Restructured installation documentation
+- [BUGFIX] `BITCrashManager`: Fixed offline issue showing crash alert over and over again with unsent crash reports
+- [BUGFIX] `BITFeedbackManager`: Improved screenshot handling on slow devices
+- [BUGFIX] `BITStoreUpdateManager`: Delegate property wasn't propagated correctly
+- [BUGFIX] Fixed various compiler warnings & other improvements
+
+## Version 3.6.4
+
+- [BUGFIX] Fixed a build issue
+
+## Version 3.6.3
+
+- [NEW] `BITCrashManager`: Added launch time to crash reports
+- [NEW] `BITFeedbackManager`: Added support for setting tintColor for feedback list buttons
+- [NEW] `BITFeedbackManager`: Added `feedbackComposerPreparedItems` to prefill feedback compose UI message with given items
+- [NEW] `BITUpdateManagerDelegate`: Added `willStartDownloadAndUpdate` to be notified before beta update starts
+- [UPDATE] Improved CocoaPods support to allow building as a native iOS 8 framework
+- [UPDATE] Keychain is now accessed with `kSecAttrAccessibleAlwaysThisDeviceOnly` to support apps that are running in the background and the device is still locked
+- [UPDATE] Reduced file size of images in `HockeySDKResources.bundle` by 63%
+- [UPDATE] `BITCrashManager`: `timeintervalCrashInLastSessionOccured` property is deprecated due to typo, use `timeIntervalCrashInLastSessionOccurred` instead
+- [UPDATE] `BITFeedbackManager`: `BITFeedbackListViewCellPresentatationStyle` is deprecated due to a typo, use `BITFeedbackListViewCellPresentationStyle` instead
+- [UPDATE] `BITAuthenticator`: Use NSLog instead of an UIAlertView in case of keychain issues
+- [BUGFIX] `BITCrashManager`: Fixed issue with `appNotTerminatingCleanlyDetection` for some scenarios
+- [BUGFIX] `BITFeedbackManager`: Fixed a crash when deleting feedback attachments
+- [BUGFIX] `BITFeedbackManager`: Fixed a crash related to viewing attachments
+- [BUGFIX] `BITFeedbackManager`: Fixed landscape screenshot issues in iOS 8
+- [BUGFIX] `BITFeedbackManager`: Fixed various issues in feedback compose UI
+- [BUGFIX] `BITFeedbackManager`: Fixed loading issues for attachments in feedback UI
+- [BUGFIX] `BITFeedbackManager`: Fixed statusbar issues and the image attachment picker with apps not showing a status bar
+- [BUGFIX] Removed a header file from the crash only build that is not needed
+- [BUGFIX] Fixed various typos in documentation, properties
+- [BUGFIX] Fixed various compiler warnings
+- [BUGFIX] Various additional fixes
+
+## Version 3.6.2
+
+- [UPDATE] Store anonymous UUID asynchronously into the keychain to work around rare keychain blocking behavior
+- [UPDATE] `BITCrashManager`: Improved detecting app specific binary images in crash report for improved crash grouping on the server
+- [UPDATE] `BITUpdateManager`: Added new `updateManagerWillExitApp` delegate method
+- [UPDATE] `BITUpdateManager`: Don't save any file when app was installed from App Store
+- [BUGFIX] `BITCrashManager`: Fixed issues with sending crash reports for apps with xml tags in the app name
+- [BUGFIX] `BITFeedbackManager`: Fixed screenshot trigger issue not always fetching the last taken image
+- [BUGFIX] `BITFeedbackManager`: Fixed compose view issue with predefined text
+- [BUGFIX] Fixed a warning when integrating the binary framework for only crash reporting
+- [BUGFIX] Fixed compiler warnings
+- [BUGFIX] Various additional fixes
+
+## Version 3.6.1
+
+- [BUGFIX] Fixed feedback compose view to correctly show the text in landscape on iOS 8
+
+## Version 3.6
+
+- [NEW] `BITCrashManager`: Added support for iOS 8 Extensions
+- [NEW] `BITCrashManager`: Option to add a custom UI flow before sending a crash report, e.g. to ask users for more details (see `setAlertViewHandler:`)
+- [NEW] `BITCrashManager`: Provide details on a crash report (see `lastSessionCrashDetails` and `BITCrashDetails`)
+- [NEW] `BITCrashManager`: Experimental support for detecting app kills triggered by iOS while the app is in foreground (see `enableAppNotTerminatingCleanlyDetection`)
+- [NEW] `BITCrashManager`: Added `didReceiveMemoryWarningInLastSession` which indicates if the last app session did get a memory warning by iOS
+- [NEW] `BITFeedbackManager`: Attach and annotate images and screenshots
+- [NEW] `BITFeedbackManager`: Attach any binary data to compose message view (see `showFeedbackComposeViewWithPreparedItems:`)
+- [NEW] `BITFeedbackManager`: Show a compose message with a screenshot image attached using predefined triggers (see `feedbackObservationMode`) or your own custom triggers (see `showFeedbackComposeViewWithGeneratedScreenshot`)
+- [NEW] Minimum iOS Deployment version is now iOS 6.0
+- [NEW] Requires to link additional frameworks: `AssetLibrary`, `MobileCoreServices`, `QuickLook`
+- [UPDATE] `BITCrashManager`: Updated `setCrashCallbacks` handling now using `BITCrashManagerCallbacks` instead of `PLCrashReporterCallbacks` (which is no longer public)
+- [UPDATE] `BITCrashManager`: Crash reports are now sent individually if there are multiple pending
+- [UPDATE] `BITUpdateManager`: Improved algorithm for fetching an optimal sized app icon for the Update View
+- [UPDATE] `BITUpdateManager`: Properly consider paragraphs in release notes when presenting them in the Update view
+- [UPDATE] Property `delegate` in all components is now private. Set the delegate on `BITHockeyManager` only!
+- [UPDATE] Removed support for Atlassian JMC
+- [BUGFIX] Various additional fixes
+<br /><br/>
+
+## Version 3.6.0 Beta 2
+
+- [NEW] `BITFeedbackManager`: Screenshot feature is now part of the public API
+- [UPDATE] `BITFeedbackManager`: Various improvements for the screenshot feature
+- [UPDATE] `BITFeedbackManager`: Added `BITHockeyAttachment` for more customizable attachments to feedback (`content-type`, `filename`)
+- [UPDATE] `BITUpdateManager`: Improved algorithm for fetching an optimal sized app icon for the Update View
+- [UPDATE] `BITUpdateManager`: Properly consider paragraphs in releases notes when presenting them in the Update View
+- [UPDATE] `BITCrashManager`: Updated PLCrashReporter to version 1.2
+- [UPDATE] `BITCrashManager`: Added `osVersion` and `osBuild` properties to `BITCrashDetails`
+- [BUGFIX] `BITCrashManager`: Use correct filename for crash report attachments
+- [UPDATE] Property `delegate` in all components is now private. Set the delegate on `BITHockeyManager` only!
+- [BUGFIX] Various additional fixes
+<br /><br/>
+
+## Version 3.6.0 Beta 1
+
+- [NEW] Minimum iOS Deployment version is now iOS 6.0
+- [NEW] Requires to link additional frameworks: `AssetLibrary`, `MobileCoreServices`, `QuickLook`
+- [NEW] `BITFeedbackManager`: Attach and annotate images and screenshots
+- [NEW] `BITFeedbackManager`: Attach any binary data to compose message view (see `showFeedbackComposeViewWithPreparedItems:`)
+- [NEW] `BITFeedbackManager`: Show a compose message with a screenshot image attached using predefined triggers (see `feedbackObservationMode`) or your own custom triggers (see `showFeedbackComposeViewWithGeneratedScreenshot`)
+- [NEW] `BITCrashManager`: Option to add a custom UI flow before sending a crash report, e.g. to ask users for more details (see `setAlertViewHandler:`)
+- [NEW] `BITCrashManager`: Provide details on a crash report (see `lastSessionCrashDetails`)
+- [NEW] `BITCrashManager`: Experimental support for detecting app kills triggered by iOS while the app is in foreground (see `enableAppNotTerminatingCleanlyDetection`)
+- [NEW] `BITCrashManager`: Added `didReceiveMemoryWarningInLastSession` which indicates if the last app session did get a memory warning by iOS
+- [UPDATE] `BITCrashManager`: Updated `setCrashCallbacks` handling now using `BITCrashManagerCallbacks` instead of `PLCrashReporterCallbacks` (which is no longer public)
+- [UPDATE] `BITCrashManager`: Crash reports are now send individually if there are multiple pending
+- [UPDATE] Removed support for Atlassian JMC
+- [BUGFIX] Fixed an incorrect submission warning about referencing non-public selector `attachmentData`
+<br /><br/>
+
+## Version 3.5.7
+
+- [UPDATE] Easy Swift integration for binary distribution (No Objective-C bridging header required)
+- [UPDATE] `BITAuthenticator`: Improved keychain handling
+- [UPDATE] `BITUpdateManager`: Improved iOS 8 In-App-Update process handling
+- [BUGFIX] `BITUpdateManager`: Fixed layout issue for resizable iOS layout
+- [BUGFIX] Fixed an iTunes Connect warning for `attachmentData` property
+<br /><br/>
+
+## Version 3.5.6
+
+- [UPDATE] `BITCrashManager`: Updated PLCrashReporter to version 1.2
+- [UPDATE] `BITUpdateManager`: Improved algorithm to find the optimal app icon
+- [BUGFIX] `BITAuthenticator`: Fixed problem with authorization and iOS 8
+- [BUGFIX] Fixed a problem with integration test and iOS 8 
+<br /><br/>
+
+## Version 3.5.5
+
+- [NEW] `BITCrashManager`: Added support for adding a binary attachment to crash reports
+- [NEW] `BITCrashManager`: Integrated PLCrashReporter 1.2 RC5 (with 2 more fixes)
+- [BUGFIX] `BITUpdateManager`: Fixed problem with `checkForUpdate` when `updateSetting` is set to `BITUpdateCheckManually`
+- [BUGFIX] `BITAuthenticator`: Fixed keychain warning alert showing app on launch if keychain is locked
+- [BUGFIX] `BITAuthenticator`: Fixed a possible assertion problem with auto-authentication (when using custom SDK builds without assertions being disabled)
+- [BUGFIX] `BITAuthenticator`: Added user email to crash report for beta builds if BITAuthenticator is set to BITAuthenticatorIdentificationTypeWebAuth
+- [BUGFIX] Fixed more analyzer warnings
+<br /><br/>
+
 ## Version 3.5.4
 
 - [BUGFIX] Fix a possible crash before sending the crash report when the selector could not be found

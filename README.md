@@ -4,7 +4,7 @@ This plugin exposes the HockeyApp SDK for ios and android
 
 Including:
 
-* HockeyAppSDK-iOS 3.5.4
+* HockeyAppSDK-iOS 3.7.1
 * HockeyAppSDK-Android 3.5.0
 
 ## Installation
