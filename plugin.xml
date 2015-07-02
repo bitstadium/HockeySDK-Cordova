@@ -54,8 +54,7 @@
 
         <header-file src="src/ios/HockeyApp.h" />
         <source-file src="src/ios/HockeyApp.m" />
-        <resource-file src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
-
+        <resource-file src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework/Versions/A/Resources/HockeySDKResources.bundle" />
         <framework src="AssetsLibrary.framework" />
         <framework src="CoreText.framework" />
         <framework src="CoreGraphics.framework" />
