@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="cordova-plugin-hockeyapp"
-      version="1.1.5">
+      version="1.1.6">
     <name>HockeyApp</name>
     <description>Cordova HockeyApp Plugin</description>
     <license>Apache 2.0</license>
@@ -54,8 +54,9 @@
 
         <header-file src="src/ios/HockeyApp.h" />
         <source-file src="src/ios/HockeyApp.m" />
-        <resource-file src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
-        <resource-file src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDK.xcconfig" />
+        <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDKResources.bundle" />
+        <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDK.xcconfig" />
+        <framework src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework" custom="true" />
         <framework src="libstdc++.dylib" />
         <framework src="libc++.dylib" />
         <framework src="AssetsLibrary.framework" />
@@ -68,8 +69,6 @@
         <framework src="Security.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="UIKit.framework" />
-
-        <framework src="src/ios/HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework" custom="true" />
 
     </platform>
 
