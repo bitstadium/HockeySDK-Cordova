@@ -6,6 +6,13 @@ import org.json.JSONArray;
 
 import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.CrashManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.lang.RuntimeException;
+import java.lang.Runnable;
+import java.lang.Thread;
 
 public class HockeyApp extends CordovaPlugin {
 
@@ -17,10 +24,17 @@ public class HockeyApp extends CordovaPlugin {
         if (action.equals("start")) {
             token = args.optString(0);
             FeedbackManager.register(cordova.getActivity(), token, null);
+            CrashManager.register(cordova.getActivity(), token);
             initialized = true;
             callbackContext.success();
             return true;
-        } else if(action.equals("feedback")) {
+        }
+        else if(actions.equals("checkForUpdate")) {
+            UpdateManager.register(cordova.getActivity(), token);
+            callbackContext.success();
+            return true;
+        }
+        else if(action.equals("feedback")) {
             if(initialized) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -35,12 +49,17 @@ public class HockeyApp extends CordovaPlugin {
                 callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
                 return false;
             }
-        } else if(action.equals("versionCheck")) {
-            if (initialized) {
-                UpdateManager.register(cordova.getActivity(), token);
+        } else if(action.equals("forceCrash")) {
+            if(initialized) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        throw new RuntimeException("Test crash at " + df.format(c.getTime()));
+                    }
+                }).start();
                 return true;
-            }
-            else {
+            } else {
                 callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
                 return false;
             }

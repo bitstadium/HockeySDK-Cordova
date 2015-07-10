@@ -1,4 +1,4 @@
-# cordova-plugin-hockeyapp [![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges)
+# cordova-plugin-hockeyapp
 
 This plugin exposes the HockeyApp SDK for ios and android
 
@@ -9,7 +9,7 @@ Including:
 
 ## Installation
 
-    cordova plugin add https://github.com/peutetre/cordova-plugin-hockeyapp.git
+    cordova plugin add cordova-plugin-hockeyapp
 
 ## Supported Platforms
 
@@ -18,7 +18,7 @@ Including:
 
 ## Methods
 
-- hockeyapp.start(success:function, error:function, appid:string):void
+- hockeyapp.start(success:function, error:function, hockeyapp_id:string):void
 
 Initialize HockeyApp SDK
 
@@ -26,9 +26,13 @@ Initialize HockeyApp SDK
 
 Display tester feedback UI
 
-- hockeyapp.versionCheck(sucess:function, error:function):void
+- hockeyapp.checkForUpdate(sucess:function, error:function):void
 
-Check for a new vesion and notify the user if a newer version is available
+Check for a new vesion
+
+- hockeyapp.forceCrash():void
+
+Force crash app
 
 ## Android tips
 

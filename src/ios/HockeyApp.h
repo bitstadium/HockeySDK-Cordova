@@ -7,6 +7,7 @@
 
 - (void)start:(CDVInvokedUrlCommand*)command;
 - (void)feedback:(CDVInvokedUrlCommand*)command;
-- (void)versionCheck:(CDVInvokedUrlCommand*)command;
+- (void)checkForUpdate:(CDVInvokedUrlCommand*)command;
+- (void)forceCrash:(CDVInvokedUrlCommand*)command;
 
 @end

@@ -47,7 +47,7 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void) versionCheck:(CDVInvokedUrlCommand*)command
+- (void) checkForUpdate:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     if(initialized == YES) {
@@ -55,9 +55,13 @@
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, appid) first!"];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, hockeyapp_id) first!"];
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)forceCrash:(CDVInvokedUrlCommand *)command {
+    [[BITHockeyManager sharedHockeyManager].crashManager generateTestCrash];
 }
 
 @end
