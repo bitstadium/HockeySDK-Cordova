@@ -29,7 +29,7 @@ public class HockeyApp extends CordovaPlugin {
             callbackContext.success();
             return true;
         }
-        else if(actions.equals("checkForUpdate")) {
+        else if(action.equals("checkForUpdate")) {
             UpdateManager.register(cordova.getActivity(), token);
             callbackContext.success();
             return true;
