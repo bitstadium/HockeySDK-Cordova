@@ -11,7 +11,7 @@ var hockeyapp = {
         exec(success, failure, "HockeyApp", "forceCrash", []);
     },
     checkForUpdate: function(success, failure) {
-        exec(function () {}, function () {}, "HockeyApp", "checkForUpdate", []);
+        exec(success, failure, "HockeyApp", "checkForUpdate", []);
     }
 };
 
