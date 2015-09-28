@@ -4,7 +4,7 @@ This plugin exposes the HockeyApp SDK for ios and android
 
 Including:
 
-* HockeyAppSDK-iOS 3.7.1
+* HockeyAppSDK-iOS 3.8.2
 * HockeyAppSDK-Android 3.5.0
 
 ## Installation
@@ -34,10 +34,6 @@ Check for a new vesion
 
 Force crash app
 
-## Android tips
+## Warning
 
-Listen to the `backbutton` event to fix the backbutton on the feedback UI like:
-
-```javascript
-document.addEventListener("backbutton", function () { }, false);
-```
+On iOS, you need to disable bitcode. add `ENABLE_BITCODE = false` in `platforms/ios/cordova/build-release.xcconfig`.
