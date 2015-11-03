@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,9 +23,20 @@ public class HockeyApp extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("start")) {
-            token = args.optString(0);
+            String autoSend = args.optString(0);
+            token = args.optString(1);
             FeedbackManager.register(cordova.getActivity(), token, null);
             CrashManager.register(cordova.getActivity(), token);
+            if (autoSend.equals("true")) {
+                CrashManager.register(cordova.getActivity(), token, new CrashManagerListener() {
+                    public boolean shouldAutoUploadCrashes() {
+                        return true;
+                    }
+                });
+            } else {
+                CrashManager.register(cordova.getActivity(), token);
+            }
+
             initialized = true;
             callbackContext.success();
             return true;
