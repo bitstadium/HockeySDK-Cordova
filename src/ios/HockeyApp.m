@@ -20,8 +20,8 @@
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: plugin is already started!"];
     } else if ([arguments count] > 1) {
 
-        NSString* autoSend = [arguments objectAtIndex:0];
-        NSString* token = [arguments objectAtIndex:1];
+        NSString* token = [arguments objectAtIndex:0];
+        NSString* autoSend = [arguments objectAtIndex:1];
 
         if ([autoSend isEqual:@"true"]) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
