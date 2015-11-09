@@ -18,7 +18,7 @@ Including:
 
 ## Methods
 
-- hockeyapp.start(success:function, error:function, autosend:boolean, hockeyapp_id:string):void
+- hockeyapp.start(success:function, error:function, hockeyapp_id:string, autosend:boolean):void
 
 Initialize HockeyApp SDK
 
