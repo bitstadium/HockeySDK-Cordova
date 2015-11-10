@@ -23,11 +23,10 @@
         NSString* token = [arguments objectAtIndex:0];
         NSString* autoSend = [arguments objectAtIndex:1];
 
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
         if ([autoSend isEqual:@"true"]) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
         }
-
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
