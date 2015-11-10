@@ -20,14 +20,13 @@
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: plugin is already started!"];
     } else if ([arguments count] > 1) {
 
-        NSString* autoSend = [arguments objectAtIndex:0];
-        NSString* token = [arguments objectAtIndex:1];
+        NSString* token = [arguments objectAtIndex:0];
+        NSString* autoSend = [arguments objectAtIndex:1];
 
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
         if ([autoSend isEqual:@"true"]) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
         }
-
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];

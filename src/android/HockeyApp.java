@@ -23,10 +23,9 @@ public class HockeyApp extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("start")) {
-            String autoSend = args.optString(0);
-            token = args.optString(1);
+            token = args.optString(0);
+            String autoSend = args.optString(1);
             FeedbackManager.register(cordova.getActivity(), token, null);
-            CrashManager.register(cordova.getActivity(), token);
             if (autoSend.equals("true")) {
                 CrashManager.register(cordova.getActivity(), token, new CrashManagerListener() {
                     public boolean shouldAutoUploadCrashes() {
