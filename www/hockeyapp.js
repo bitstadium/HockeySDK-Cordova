@@ -1,8 +1,9 @@
 var exec = require('cordova/exec');
 
 var hockeyapp = {
-    start: function(success, failure, token) {
-        exec(success, failure, "HockeyApp", "start", [ token ]);
+    start: function(success, failure, token, autoSend) {
+        autoSend = (autoSend === true || autoSend === "true") ? true : false;
+        exec(success, failure, "HockeyApp", "start", [ token, autoSend.toString() ]);
     },
     feedback: function(success, failure) {
         exec(success, failure, "HockeyApp", "feedback", []);

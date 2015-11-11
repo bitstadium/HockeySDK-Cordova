@@ -18,17 +18,22 @@
 
     if (initialized == YES) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: plugin is already started!"];
-    } else if ([arguments count] > 0) {
+    } else if ([arguments count] > 1) {
 
         NSString* token = [arguments objectAtIndex:0];
+        NSString* autoSend = [arguments objectAtIndex:1];
+
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
+        if ([autoSend isEqual:@"true"]) {
+            [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
+        }
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         initialized = YES;
 
     } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: token is missing!"];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: missing arguments!"];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
