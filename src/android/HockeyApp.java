@@ -19,22 +19,19 @@ public class HockeyApp extends CordovaPlugin {
 
     public static boolean initialized = false;
     public static String token;
+    
+    private ConfiguredCrashManagerListener crashListener;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("start")) {
             token = args.optString(0);
-            String autoSend = args.optString(1);
+            boolean autoSend = args.optBoolean(1, false);
+            boolean ignoreDefaultHandler = args.optBoolean(2, false);
+            
             FeedbackManager.register(cordova.getActivity(), token, null);
-            if (autoSend.equals("true")) {
-                CrashManager.register(cordova.getActivity(), token, new CrashManagerListener() {
-                    public boolean shouldAutoUploadCrashes() {
-                        return true;
-                    }
-                });
-            } else {
-                CrashManager.register(cordova.getActivity(), token);
-            }
+            this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
+            CrashManager.register(cordova.getActivity(), token, this.crashListener);
 
             initialized = true;
             callbackContext.success();
@@ -80,4 +77,24 @@ public class HockeyApp extends CordovaPlugin {
         }
     }
 
+}
+
+private class ConfiguredCrashManagerListener extends CrashManagerListener {
+    private boolean autoSend = false;
+    private boolean ignoreDefaultHandler = false;
+    
+    public ConfiguredCrashManagerListener(boolean autoSend, boolean ignoreDefaultHandler) {
+        this.autoSend = autoSend;
+        this.ignoreDefaultHandler = ignoreDefaultHandler;
+    }
+    
+    @Override
+    public boolean shouldAutoUploadCrashes() {
+        return this.autoSend;
+    }
+    
+    @Override
+    public boolean ignoreDefaultHandler() {
+        return this.ignoreDefaultHandler;
+    }
 }
