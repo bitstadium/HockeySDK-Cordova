@@ -25,6 +25,9 @@ var hockeyapp = {
     },
     checkForUpdate: function (success, failure) {
         exec(success, failure, "HockeyApp", "checkForUpdate", []);
+    },
+    addMetaData: function (success, failure, data) {
+        exec(success, failure, "HockeyApp", "addMetaData", [data]);
     }
 };
 
