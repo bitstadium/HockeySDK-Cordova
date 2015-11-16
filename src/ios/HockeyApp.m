@@ -22,11 +22,15 @@
 
         NSString* token = [arguments objectAtIndex:0];
         NSString* autoSend = [arguments objectAtIndex:1];
+        
+        // no-op this for now. Appears to do nothing on ios side?
+        NSString* ignoreDefaultHandler = [arguments objectAtIndex:2];
 
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
         if ([autoSend isEqual:@"true"]) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
         }
+        
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -65,8 +69,26 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)forceCrash:(CDVInvokedUrlCommand *)command {
+- (void) forceCrash:(CDVInvokedUrlCommand *)command {
     [[BITHockeyManager sharedHockeyManager].crashManager generateTestCrash];
+}
+
+- (void) addMetaData:(CDVInvokedUrlCommand *)command {
+    NSArray* arguments = command.arguments;
+    CDVPluginResult* pluginResult = nil;
+    
+    if(initialized == YES) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, hockeyapp_id) first!"];
+    }
+}
+
+#pragma mark - BITCrashManagerDelegate
+
+- (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
+    return nil;
 }
 
 @end

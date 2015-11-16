@@ -9,5 +9,6 @@
 - (void)feedback:(CDVInvokedUrlCommand*)command;
 - (void)checkForUpdate:(CDVInvokedUrlCommand*)command;
 - (void)forceCrash:(CDVInvokedUrlCommand*)command;
+- (void)addMetaData:(CDVInvokedUrlCommand*)command;
 
 @end
