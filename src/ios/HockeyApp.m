@@ -8,6 +8,7 @@
 {
     self = [super init];
     initialized = NO;
+    crashMetaData = [NSMutableDictionary: init];
     return self;
 }
 
@@ -78,6 +79,8 @@
     CDVPluginResult* pluginResult = nil;
     
     if(initialized == YES) {
+        NSDictionary* newMetaData = [arguments objectAtIndex:0];
+        [crashMetaData addEntriesFromDictionary otherDictionary:newMetaData];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     else {
