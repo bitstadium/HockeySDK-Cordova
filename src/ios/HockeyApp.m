@@ -91,7 +91,17 @@
 #pragma mark - BITCrashManagerDelegate
 
 - (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
-    return nil;
+    NSString output = @"{";
+    NSString prefix = @"";
+    for(id key in crashMetaData) {
+        output = [output stringByAppendingString:prefix];
+        prefix = @",";
+        output = [output stringByAppendingString:[crashMetaData objectForKey:key]];
+    }
+    
+    output = [output stringByAppendingString:@"}"];
+    
+    return output;
 }
 
 @end
