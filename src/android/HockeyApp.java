@@ -4,6 +4,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.UpdateManager;
@@ -12,6 +13,7 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Map;
 import java.lang.RuntimeException;
 import java.lang.Runnable;
@@ -76,12 +78,27 @@ public class HockeyApp extends CordovaPlugin {
             }
         } else if (action.equals("addMetaData")) {
             if(initialized) {
-                JSONObject rawMetaData = args.getJSONObject(0);
-                Iterator<?> keys = rawMetaData.keys();
+                try {
+                    String jsonArgs = args.optString(0);
+                    JSONObject rawMetaData = new JSONObject(jsonArgs);
+                    Iterator<?> keys = rawMetaData.keys();
+                    boolean success = true;
                 
-                while (keys.hasNext()) {
-                    String key = (String)keys.next();
-                    this.crashListener.addSetMetaData(key, rawMetaData.getJSONObject(key));
+                    while (keys.hasNext()) {
+                        String key = (String)keys.next();
+                        success = success && this.crashListener.addSetMetaData(key, rawMetaData.getString(key));
+                    }
+                    
+                    if (success) {
+                        callbackContext.success();
+                    } else {
+                        callbackContext.error("failed to parse metadata. Ignoring....");
+                    }
+                    
+                    return success;
+                } catch (JSONException e) {
+                    callbackContext.error("failed to parse metadata. Ignoring....");
+                    return false;
                 }
             } else {
                 callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
@@ -95,7 +112,7 @@ public class HockeyApp extends CordovaPlugin {
 
 }
 
-private class ConfiguredCrashManagerListener extends CrashManagerListener {
+class ConfiguredCrashManagerListener extends CrashManagerListener {
     private boolean autoSend = false;
     private boolean ignoreDefaultHandler = false;
     private JSONObject crashMetaData;
@@ -121,7 +138,12 @@ private class ConfiguredCrashManagerListener extends CrashManagerListener {
         return crashMetaData.toString();
     }
     
-    public boolean addSetMetaData(String key, JSONObject data) {
-        this.crashMetaData.put(key,data);
+    public boolean addSetMetaData(String key, String value) {
+        try {
+            this.crashMetaData.put(key, value);
+            return true;
+        } catch (JSONException e) {
+            return false;
+        }
     }
 }
