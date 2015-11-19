@@ -8,7 +8,7 @@
 {
     self = [super init];
     initialized = NO;
-    crashMetaData = [NSMutableDictionary init];
+    crashMetaData = [NSMutableDictionary new];
     return self;
 }
 
@@ -79,32 +79,32 @@
     CDVPluginResult* pluginResult = nil;
     
     if(initialized == YES) {
+        if (crashMetaData == nil) {
+            crashMetaData = [NSMutableDictionary new];
+        }
+        
         NSError *error;
-        NSDictionary* newMetaData = [NSJSONSerialization JSONObjectWithData:arguments options:0 error:&error]
+        NSDictionary* newMetaData = [NSJSONSerialization JSONObjectWithData:arguments options:0 error:&error];
         [crashMetaData addEntriesFromDictionary:newMetaData];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, hockeyapp_id) first!"];
     }
-    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 #pragma mark - BITCrashManagerDelegate
 
 - (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
-    NSString *output = @"{";
-    NSString *prefix = @"";
-    for(id key in crashMetaData) {
-        output = [output stringByAppendingString:prefix];
-        prefix = @",";
-        output = [output stringByAppendingString:[crashMetaData objectForKey:key]];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:crashMetaData options:0 error:&error];
+    if (jsonData) {
+        NSString *crashLogString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+        return crashLogString;
     }
     
-    output = [output stringByAppendingString:@"}"];
-    
-    return output;
+    return nil;
 }
 
 @end
