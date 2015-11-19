@@ -1,6 +1,7 @@
 #import "HockeyApp.h"
 #import <HockeySDK/HockeySDK.h>
 #import <Cordova/CDVViewController.h>
+#import <Foundation>
 
 @implementation HockeyApp
 
@@ -8,7 +9,7 @@
 {
     self = [super init];
     initialized = NO;
-    crashMetaData = [NSMutableDictionary: init];
+    crashMetaData = [NSMutableDictionary init];
     return self;
 }
 
@@ -25,7 +26,7 @@
         NSString* autoSend = [arguments objectAtIndex:1];
         
         // no-op this for now. Appears to do nothing on ios side?
-        NSString* ignoreDefaultHandler = [arguments objectAtIndex:2];
+        // NSString* ignoreDefaultHandler = [arguments objectAtIndex:2];
 
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token];
         if ([autoSend isEqual:@"true"]) {
@@ -75,24 +76,27 @@
 }
 
 - (void) addMetaData:(CDVInvokedUrlCommand *)command {
-    NSArray* arguments = command.arguments;
+    NSData* arguments = [[command.arguments objectAtIndex:0] dataUsingEncoding:NSUTF8StringEncoding];
     CDVPluginResult* pluginResult = nil;
     
     if(initialized == YES) {
-        NSDictionary* newMetaData = [arguments objectAtIndex:0];
-        [crashMetaData addEntriesFromDictionary otherDictionary:newMetaData];
+        NSError *error;
+        NSDictionary* newMetaData = [NSJSONSerialization JSONObjectWithData:arguments options:0 error:&error]
+        [crashMetaData addEntriesFromDictionary:newMetaData];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, hockeyapp_id) first!"];
     }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 #pragma mark - BITCrashManagerDelegate
 
 - (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
-    NSString output = @"{";
-    NSString prefix = @"";
+    NSString *output = @"{";
+    NSString *prefix = @"";
     for(id key in crashMetaData) {
         output = [output stringByAppendingString:prefix];
         prefix = @",";

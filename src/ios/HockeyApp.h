@@ -3,7 +3,7 @@
 
 @interface HockeyApp : CDVPlugin {
     BOOL initialized;
-    NSMutableDictionary crashMetaData;
+    NSMutableDictionary *crashMetaData;
 }
 
 - (void)start:(CDVInvokedUrlCommand*)command;
