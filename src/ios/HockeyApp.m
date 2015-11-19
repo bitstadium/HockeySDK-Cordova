@@ -1,7 +1,6 @@
 #import "HockeyApp.h"
 #import <HockeySDK/HockeySDK.h>
 #import <Cordova/CDVViewController.h>
-#import <Foundation>
 
 @implementation HockeyApp
 
