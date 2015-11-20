@@ -1,7 +1,9 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
+#import "HockeyApp.h"
+#import <HockeySDK/HockeySDK.h>
 
-@interface HockeyApp : CDVPlugin {
+@interface HockeyApp : CDVPlugin <BITCrashManagerDelegate> {
     BOOL initialized;
     NSMutableDictionary *crashMetaData;
 }
