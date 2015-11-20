@@ -33,6 +33,16 @@
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token
                                                                delegate:self];
         [[BITHockeyManager sharedHockeyManager] startManager];
+        
+        // Set the authentication mode if specified
+        [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:BITAuthenticatorIdentificationTypeHockeyAppUser];
+        if ([arguments count] == 3) {
+            NSString *authTypeString = [arguments objectAtIndex:2];
+            NSInteger authType = [authTypeString intValue];
+            
+            [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:authType];
+        }
+        
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         initialized = YES;
