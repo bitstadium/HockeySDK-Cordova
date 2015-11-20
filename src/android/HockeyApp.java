@@ -99,7 +99,7 @@ public class HockeyApp extends CordovaPlugin {
                         LoginManager.register(cordova.getActivity(), appId, appSecret, loginMode, new LoginManagerListener() {
                             @Override
                             public void onBack() {
-                                loginCallbackContext.error();
+                                loginCallbackContext.error("");
                             }
                             
                             @Override
@@ -112,15 +112,13 @@ public class HockeyApp extends CordovaPlugin {
                     }
                 });
                 
-                PluginResult pluginResult = new PluginResult(Status.NO_RESULT);
-                pluginResult.setKeepCallback(true);
-                callbackContext.sendPluginResult(pluginResult);
-                return true;
-            } else {
-                callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
-                return false;
-            }
-        } else if (action.equals("addMetaData")) {
+            PluginResult pluginResult = new PluginResult(Status.NO_RESULT);
+            pluginResult.setKeepCallback(true);
+            callbackContext.sendPluginResult(pluginResult);
+            return true;
+        }
+        
+        if (action.equals("addMetaData")) {
             if(initialized) {
                 try {
                     String jsonArgs = args.optString(0);
