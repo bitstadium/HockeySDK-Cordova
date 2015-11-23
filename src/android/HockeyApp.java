@@ -16,8 +16,13 @@ import net.hockeyapp.android.LoginManagerListener;
 import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 
-import java.lang.Runnable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Map;
 import java.lang.RuntimeException;
+import java.lang.Runnable;
+import java.lang.StringBuilder;
 import java.lang.Thread;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,28 +31,24 @@ public class HockeyApp extends CordovaPlugin {
 
     public static boolean initialized = false;
     public static String appId;
+    
+    private ConfiguredCrashManagerListener crashListener;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("start")) {
             appId = args.optString(0);
-            boolean autoSend = args.optBoolean(1);
+            boolean autoSend = args.optBoolean(3);
+            boolean ignoreDefaultHandler = args.optBoolean(4, false);
             
             FeedbackManager.register(cordova.getActivity(), appId);
-            if (autoSend) {
-                CrashManager.register(cordova.getActivity(), appId, new CrashManagerListener() {
-                    public boolean shouldAutoUploadCrashes() {
-                        return true;
-                    }
-                });
-            } else {
-                CrashManager.register(cordova.getActivity(), appId);
-            }
+            this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
+            CrashManager.register(cordova.getActivity(), appId, this.crashListener);
             
             // Verify the user
             final CallbackContext loginCallbackContext = callbackContext;
-            final int loginMode = args.optInt(2, LoginManager.LOGIN_MODE_ANONYMOUS);
-            final String appSecret = args.optString(3, "");
+            final int loginMode = args.optInt(1, LoginManager.LOGIN_MODE_ANONYMOUS);
+            final String appSecret = args.optString(2, "");
             
             if (loginMode == LoginManager.LOGIN_MODE_ANONYMOUS) {
                 // LOGIN_MODE_ANONYMOUS does not raise the onSuccess method
@@ -121,6 +122,36 @@ public class HockeyApp extends CordovaPlugin {
             }).start();
             return true;
         }
+        
+        if (action.equals("addMetaData")) {
+            if(initialized) {
+                try {
+                    String jsonArgs = args.optString(0);
+                    JSONObject rawMetaData = new JSONObject(jsonArgs);
+                    Iterator<?> keys = rawMetaData.keys();
+                    boolean success = true;
+                
+                    while (keys.hasNext()) {
+                        String key = (String)keys.next();
+                        success = success && this.crashListener.putMetaData(key, rawMetaData.getString(key));
+                    }
+                    
+                    if (success) {
+                        callbackContext.success();
+                    } else {
+                        callbackContext.error("failed to parse metadata. Ignoring....");
+                    }
+                    
+                    return success;
+                } catch (JSONException e) {
+                    callbackContext.error("failed to parse metadata. Ignoring....");
+                    return false;
+                }
+            } else {
+                callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
+                return false;
+            }
+        }
 
         // Unrecognized command     
         return false;
@@ -134,5 +165,41 @@ public class HockeyApp extends CordovaPlugin {
     @Override
     public void onResume(boolean multitasking) {
         Tracking.startUsage(cordova.getActivity());            
+    }
+}
+
+class ConfiguredCrashManagerListener extends CrashManagerListener {
+    private boolean autoSend = false;
+    private boolean ignoreDefaultHandler = false;
+    private JSONObject crashMetaData;
+    
+    public ConfiguredCrashManagerListener(boolean autoSend, boolean ignoreDefaultHandler) {
+        this.autoSend = autoSend;
+        this.ignoreDefaultHandler = ignoreDefaultHandler;
+        this.crashMetaData = new JSONObject();
+    }
+    
+    @Override
+    public boolean shouldAutoUploadCrashes() {
+        return this.autoSend;
+    }
+    
+    @Override
+    public boolean ignoreDefaultHandler() {
+        return this.ignoreDefaultHandler;
+    }
+    
+    @Override
+    public String getDescription() {
+        return crashMetaData.toString();
+    }
+    
+    public boolean putMetaData(String key, String value) {
+        try {
+            this.crashMetaData.put(key, value);
+            return true;
+        } catch (JSONException e) {
+            return false;
+        }
     }
 }
