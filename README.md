@@ -18,21 +18,37 @@ Including:
 
 ## Methods
 
-- hockeyapp.start(success:function, error:function, hockeyapp_id:string, autosend:boolean):void
+- hockeyapp.start
+- hockeyapp.checkForUpdate
+- hockeyapp.feedback
+- hockeyapp.forceCrash
+
+### hockeyapp.start
 
 Initialize HockeyApp SDK
 
-- hockeyapp.feedback(sucess:function, error:function):void
+`hockeyapp.start(success:function, error:function, hockeyapp_id:string, autosend:boolean):void`
 
-Display tester feedback UI
-
-- hockeyapp.checkForUpdate(sucess:function, error:function):void
+### hockeyapp.checkForUpdate
 
 Check for a new vesion
 
-- hockeyapp.forceCrash():void
+`hockeyapp.checkForUpdate(sucess:function, error:function):void`
+
+Note: This [should not be called in production/release builds](http://support.hockeyapp.net/discussions/problems/46569-can-i-use-update-manager-with-google-play-store-apps#comment_38058429) intended for the Google Play Store.
+
+### hockeyapp.feedback
+
+Display tester feedback UI
+
+`hockeyapp.feedback(sucess:function, error:function):void`
+
+### hockeyapp.forceCrash
 
 Force crash app
+
+`hockeyapp.forceCrash():void`
+
 
 ## Warning
 
