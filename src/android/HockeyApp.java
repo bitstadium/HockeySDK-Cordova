@@ -128,7 +128,7 @@ public class HockeyApp extends CordovaPlugin {
                 
                     while (keys.hasNext()) {
                         String key = (String)keys.next();
-                        success = success && this.crashListener.addSetMetaData(key, rawMetaData.getString(key));
+                        success = success && this.crashListener.putMetaData(key, rawMetaData.getString(key));
                     }
                     
                     if (success) {
@@ -189,7 +189,7 @@ class ConfiguredCrashManagerListener extends CrashManagerListener {
         return crashMetaData.toString();
     }
     
-    public boolean addSetMetaData(String key, String value) {
+    public boolean putMetaData(String key, String value) {
         try {
             this.crashMetaData.put(key, value);
             return true;
