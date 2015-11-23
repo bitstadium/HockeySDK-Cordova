@@ -30,26 +30,61 @@ import java.util.Calendar;
 public class HockeyApp extends CordovaPlugin {
 
     public static boolean initialized = false;
-    public static String token;
+    public static String appId;
     
     private ConfiguredCrashManagerListener crashListener;
-    public static String appId;
-    public static int loginMode;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("start")) {
-            token = args.optString(0);
-            boolean autoSend = args.optBoolean(1, false);
-            loginMode = args.optInt(2, LoginManager.LOGIN_MODE_EMAIL_PASSWORD);
-            boolean ignoreDefaultHandler = args.optBoolean(3, false);
+            appId = args.optString(0);
+            boolean autoSend = args.optBoolean(3);
+            boolean ignoreDefaultHandler = args.optBoolean(4, false);
             
-            FeedbackManager.register(cordova.getActivity(), token, null);
+            FeedbackManager.register(cordova.getActivity(), appId);
             this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
-            CrashManager.register(cordova.getActivity(), token, this.crashListener);
+            CrashManager.register(cordova.getActivity(), appId, this.crashListener);
+            
+            // Verify the user
+            final CallbackContext loginCallbackContext = callbackContext;
+            final int loginMode = args.optInt(1, LoginManager.LOGIN_MODE_ANONYMOUS);
+            final String appSecret = args.optString(2, "");
+            
+            if (loginMode == LoginManager.LOGIN_MODE_ANONYMOUS) {
+                // LOGIN_MODE_ANONYMOUS does not raise the onSuccess method
+                // of the LoginManagerListener, so just return immediately.
+                initialized = true;
+                callbackContext.success();
+                return true;
+            } else if (loginMode == LoginManager.LOGIN_MODE_VALIDATE) {
+                // LOGIN_MODE_VALIDATE does not currently work on Android, so fail immediately
+                callbackContext.error("The requested login mode is not available on the Android platform");
+                return false;
+            }
 
-            initialized = true;
-            callbackContext.success();
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    LoginManager.register(cordova.getActivity(), appId, appSecret, loginMode, new LoginManagerListener() {
+                        @Override
+                        public void onBack() {
+                            loginCallbackContext.error("Login failed");
+                        }
+                        
+                        @Override
+                        public void onSuccess() {
+                            initialized = true;
+                            loginCallbackContext.success();
+                        }
+                    });
+
+                    LoginManager.verifyLogin(cordova.getActivity(), cordova.getActivity().getIntent());
+                }
+            });
+
+            PluginResult pluginResult = new PluginResult(Status.NO_RESULT);
+            pluginResult.setKeepCallback(true);
+            callbackContext.sendPluginResult(pluginResult);
             return true;
         }
         
@@ -85,36 +120,6 @@ public class HockeyApp extends CordovaPlugin {
                     throw new RuntimeException("Test crash at " + df.format(c.getTime()));
                 }
             }).start();
-            return true;
-        }
-        
-        if (action.equals("verifyLogin")) {
-            // We're going to need to call back into the JS side once the login is complete
-            final CallbackContext loginCallbackContext = callbackContext;
-            final String appSecret = args.optString(0);
-
-            cordova.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        LoginManager.register(cordova.getActivity(), appId, appSecret, loginMode, new LoginManagerListener() {
-                            @Override
-                            public void onBack() {
-                                loginCallbackContext.error("");
-                            }
-                            
-                            @Override
-                            public void onSuccess() {
-                                loginCallbackContext.success();
-                            }
-                        });
-                        
-                        LoginManager.verifyLogin(cordova.getActivity(), cordova.getActivity().getIntent());
-                    }
-                });
-                
-            PluginResult pluginResult = new PluginResult(Status.NO_RESULT);
-            pluginResult.setKeepCallback(true);
-            callbackContext.sendPluginResult(pluginResult);
             return true;
         }
         

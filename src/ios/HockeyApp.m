@@ -21,10 +21,10 @@
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: plugin is already started!"];
     } else if ([arguments count] > 1) {
         NSString* token = [arguments objectAtIndex:0];
-        NSString* autoSend = [arguments objectAtIndex:1];
+        NSString* autoSend = [arguments objectAtIndex:3];
         
         // no-op this for now. Appears to do nothing on ios side?
-        // NSString* ignoreDefaultHandler = [arguments objectAtIndex:2];
+        // NSString* ignoreDefaultHandler = [arguments objectAtIndex:4];
 
         if ([autoSend isEqual:@"true"]) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
@@ -34,19 +34,28 @@
                                                                delegate:self];
         [[BITHockeyManager sharedHockeyManager] startManager];
         
-        // Set the authentication mode if specified
+        // Set authentication mode prior to verifying the user
+        NSInteger authType = BITAuthenticatorIdentificationTypeAnonymous;
         [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:BITAuthenticatorIdentificationTypeHockeyAppUser];
-        if ([arguments count] == 3) {
-            NSString *authTypeString = [arguments objectAtIndex:2];
-            NSInteger authType = [authTypeString intValue];
+        if ([arguments count] >= 3) {
+            NSString *authTypeString = [arguments objectAtIndex:1];
+            authType = [authTypeString intValue];
+            NSString *appSecret = [arguments objectAtIndex:2];
             
+            [[BITHockeyManager sharedHockeyManager].authenticator setAuthenticationSecret:appSecret];
             [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:authType];
         }
         
-        [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        initialized = YES;
-
+        if (authType == BITAuthenticatorIdentificationTypeAnonymous) {
+            // If no validation is occuring then we can callback immediately. Otherwise,
+            // we're going to wait until the authenticateInstallation call above returns
+            initialized = YES;
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            // Non-anonymous validation will crash the app, so return an error to indicate
+            // what is actually happening
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: non-anonymous app validation not currently supported"];
+        }
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: missing arguments!"];
     }

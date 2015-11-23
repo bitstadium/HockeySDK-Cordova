@@ -1,11 +1,21 @@
 var exec = require('cordova/exec');
 
 var hockeyapp = {
-    start: function(success, failure, appId, autoSend, loginMode, ignoreDefaultHandler) {
+    start: function(success, failure, appId, autoSend, ignoreDefaultHandler, loginMode, appSecret) {
         autoSend = (autoSend === true || autoSend === "true");
+        ignoreDefaultHandler = (ignoreDefaultHandler === true || ignoreDefaultHandler === "true");
         loginMode = loginMode || hockeyapp.loginMode.ANONYMOUS;
-        ignoreDefaultHandler = ignoreDefaultHandler || false;
-        exec(success, failure, "HockeyApp", "start", [appId, autoSend, loginMode]);
+        appSecret = appSecret || '';
+        
+        // Requesting loginMode.EMAIL_ONLY without an appSecret is not permitted
+        if (loginMode === hockeyapp.loginMode.EMAIL_ONLY && appSecret.trim() === '') {
+            if (failure && typeof failure === 'function') {
+                failure('You must specify your app secret when using email-only login mode');
+            }
+            return;
+        }
+
+        exec(success, failure, "HockeyApp", "start", [appId, loginMode, appSecret, autoSend, ignoreDefaultHandler]);
     },
     feedback: function (success, failure) {
         exec(success, failure, "HockeyApp", "feedback", []);
@@ -18,9 +28,6 @@ var hockeyapp = {
     },
     addMetaData: function (success, failure, data) {
         exec(success, failure, "HockeyApp", "addMetaData", [JSON.stringify(data)]);
-    },
-    verifyLogin: function(success, failure, appSecret) {
-        exec(success, failure, "HockeyApp", "verifyLogin", [appSecret]);
     },
     
     // Valid loginMode values
