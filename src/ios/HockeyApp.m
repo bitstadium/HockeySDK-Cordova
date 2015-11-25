@@ -47,13 +47,11 @@
         }
         
         if (authType == BITAuthenticatorIdentificationTypeAnonymous) {
-            // If no validation is occuring then we can callback immediately. Otherwise,
-            // we're going to wait until the authenticateInstallation call above returns
+            [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
             initialized = YES;
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         } else {
-            // Non-anonymous validation will crash the app, so return an error to indicate
-            // what is actually happening
+            // Non-anonymous validation will crash the app, so return an error to indicate what is actually happening
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin: non-anonymous app validation not currently supported"];
         }
     } else {
