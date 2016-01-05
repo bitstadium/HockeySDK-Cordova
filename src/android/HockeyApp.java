@@ -124,31 +124,26 @@ public class HockeyApp extends CordovaPlugin {
         }
         
         if (action.equals("addMetaData")) {
-            if(initialized) {
-                try {
-                    String jsonArgs = args.optString(0);
-                    JSONObject rawMetaData = new JSONObject(jsonArgs);
-                    Iterator<?> keys = rawMetaData.keys();
-                    boolean success = true;
-                
-                    while (keys.hasNext()) {
-                        String key = (String)keys.next();
-                        success = success && this.crashListener.putMetaData(key, rawMetaData.getString(key));
-                    }
-                    
-                    if (success) {
-                        callbackContext.success();
-                    } else {
-                        callbackContext.error("failed to parse metadata. Ignoring....");
-                    }
-                    
-                    return success;
-                } catch (JSONException e) {
-                    callbackContext.error("failed to parse metadata. Ignoring....");
-                    return false;
+            try {
+                String jsonArgs = args.optString(0);
+                JSONObject rawMetaData = new JSONObject(jsonArgs);
+                Iterator<String> keys = rawMetaData.keys();
+                boolean success = true;
+            
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    success = success && this.crashListener.putMetaData(key, rawMetaData.getString(key));
                 }
-            } else {
-                callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
+                
+                if (success) {
+                    callbackContext.success();
+                } else {
+                    callbackContext.error("failed to parse metadata. Ignoring....");
+                }
+                
+                return success;
+            } catch (JSONException e) {
+                callbackContext.error("failed to parse metadata. Ignoring....");
                 return false;
             }
         }
