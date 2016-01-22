@@ -18,9 +18,12 @@ Including:
 
 ## Methods
 
-- **hockeyapp.start(success:function, error:function, appId:string, autoSend:boolean, ignoreDefaultHandler:boolean, loginMode:int, appSecret:string):void**
+Initialize HockeyApp SDK:
+```
+hockeyapp.start(success:function, error:function, appId:string, autoSend:boolean, ignoreDefaultHandler:boolean, loginMode:int, appSecret:string):void
+```
 
-Initialize HockeyApp SDK
+
 
 When specifying the `loginMode`, it is recommended that you use the `hockeyapp.loginMode` enumeration. Available values are:
 
