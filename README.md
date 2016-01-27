@@ -53,7 +53,3 @@ Add arbitrary metadata to a crash, which will be displayed in crash reports:
 ```
 hockeyapp.addMetaData(success:function, error:function, data:object):void
 ```
-
-## Warning
-
-On iOS, you need to disable Bitcode. Add `ENABLE_BITCODE = false` in `platforms/ios/cordova/build-release.xcconfig`.
