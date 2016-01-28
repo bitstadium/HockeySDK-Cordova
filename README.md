@@ -52,8 +52,3 @@ Can be used to test the crash reporting feature of HockeyApp.
 ```
 hockeyapp.addMetaData(success:function, error:function, data:object):void
 ```
-Will be displayed in crash reports in HockeyApp.
- 
-## Warning
-
-On iOS, you need to disable Bitcode. Add `ENABLE_BITCODE = false` in `platforms/ios/cordova/build-release.xcconfig`. You can e.g. use [cordova-config-utils](https://github.com/mhartington/cordova-config-utils) to automate this so you don't have to change the generated content of `/platforms` manually.
