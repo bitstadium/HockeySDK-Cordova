@@ -52,3 +52,4 @@ Can be used to test the crash reporting feature of HockeyApp.
 ```
 hockeyapp.addMetaData(success:function, error:function, data:object):void
 ```
+Will be displayed in crash reports in HockeyApp.
