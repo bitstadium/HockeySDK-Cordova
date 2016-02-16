@@ -16,6 +16,10 @@ import net.hockeyapp.android.LoginManagerListener;
 import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -26,14 +30,75 @@ import java.lang.StringBuilder;
 import java.lang.Thread;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.view.View;
 
 public class HockeyApp extends CordovaPlugin {
 
     public static boolean initialized = false;
     public static String appId;
+    public static Object monitor = new Object();
+    public static volatile Bitmap bitmap;
     
     private ConfiguredCrashManagerListener crashListener;
+    
+    // Integration with the XWalk plugin requires a version with the following change in it:
+    // https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/pull/77/files
+    // Which will be whatever comes after 1.5.0    
+    // The captureXWalkBitmap message used by the plugin also requires version 18+ of the xwalk engine
+   
+    private Bitmap getBitmap() {
+        bitmap = null;
+        boolean isCrosswalk = false;
+        try {
+            Class.forName("org.crosswalk.engine.XWalkWebViewEngine");
+            isCrosswalk = true;
+        } catch (Exception e) {
+        }
 
+        if (isCrosswalk) {
+            long start = System.currentTimeMillis();
+            // BUGBUG: Currently there's an exception launched from the XWalk engine if the message is not sent from the UI thread
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    webView.getPluginManager().postMessage("captureXWalkBitmap", this);                
+                }
+            });
+            try {
+                // Can't take more than 5 seconds to get a screenshot
+                while (bitmap == null && System.currentTimeMillis() - start < 5000) {
+                    synchronized (monitor) {
+                        monitor.wait(50);
+                    }
+                }
+            } catch (InterruptedException e) {                
+            }
+        } else {
+            View view = webView.getView();
+            view.setDrawingCacheEnabled(true);
+            bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            view.setDrawingCacheEnabled(false);
+        }
+
+        return bitmap;
+    }
+
+    @Override
+    public Object onMessage(String id, Object data) {
+        if (id.equals("onGotXWalkBitmap")) {
+            bitmap = (Bitmap)data;
+            synchronized (monitor) {
+                monitor.notify();                
+            }
+        }
+        return null;
+    }
+    
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         if (action.equals("start")) {
@@ -99,12 +164,61 @@ public class HockeyApp extends CordovaPlugin {
             callbackContext.success();
             return true;
         }
-        
+
         if (action.equals("feedback")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     FeedbackManager.showFeedbackActivity(cordova.getActivity());
+                }
+            });
+
+            callbackContext.success();
+            return true;
+        }
+        
+        if (action.equals("feedbackModal")) {
+            final ArrayList<Uri> attachments = new ArrayList<Uri>();
+            final Activity context = cordova.getActivity();
+            boolean takeScreenshot = args.optBoolean(0);
+            if (takeScreenshot) {
+                Bitmap screenshot = getBitmap();
+                if (screenshot == null) {
+                    callbackContext.error("failed to take screenshot");
+                    return false;
+                }
+                try{
+                    File imageFile = File.createTempFile("screen", ".jpg", context.getFilesDir());
+                    imageFile.deleteOnExit();
+                    FileOutputStream stream = new FileOutputStream(imageFile);
+                    screenshot.compress(Bitmap.CompressFormat.JPEG, 95, stream);
+                    stream.close();
+                    attachments.add(Uri.fromFile(imageFile));
+                } catch (IOException e) {
+                    callbackContext.error("failed to take screenshot");
+                    return false;
+                }
+            }
+            String jsonData = args.optString(1);
+            if (jsonData != "") {
+                try {
+                    File dataFile = File.createTempFile("logs", ".json", context.getFilesDir());
+                    dataFile.deleteOnExit();
+                    FileWriter writer = new FileWriter(dataFile);
+                    writer.write(jsonData);
+                    writer.close();
+                    attachments.add(Uri.fromFile(dataFile));
+                } catch (IOException e) {
+                    callbackContext.error("failed to create json data file");
+                    return false;
+                }
+            }
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Uri[] attachmentArray = new Uri[attachments.size()];
+                    attachmentArray = attachments.toArray(attachmentArray);
+                    FeedbackManager.showFeedbackActivity(context, attachmentArray);
                 }
             });
 
@@ -148,7 +262,7 @@ public class HockeyApp extends CordovaPlugin {
             }
         }
 
-        // Unrecognized command     
+        // Unrecognized command
         return false;
     }
     
