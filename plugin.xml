@@ -3,10 +3,9 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="cordova-plugin-hockeyapp"
 xmlns:android="http://schemas.android.com/apk/res/android"
-      version="2.0.0">
+      version="2.1.0">
     <name>HockeyApp</name>
-    <description>Cordova HockeyApp Plugin for android and ios. (hockeyapp sdk versions ios: 3.8.2 and android: 3.5.0)</description>
-    <info>On iOS, you need to disable bitcode. Add `ENABLE_BITCODE = false` in `platforms/ios/cordova/build-release.xcconfig`.</info>
+    <description>Cordova HockeyApp Plugin for android and ios. (hockeyapp sdk versions ios: 3.8.5 and android: 3.5.0)</description>
     <license>Apache 2.0</license>
     <keywords>cordova,hockeyapp</keywords>
     <author>Paul Panserrieu</author>
