@@ -28,7 +28,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="HockeyApp">
-            <param name="android-package" value="com.zengularity.cordova.hockeyapp.HockeyApp"/>
+                <param name="android-package" value="com.zengularity.cordova.hockeyapp.HockeyApp"/>
             </feature>
         </config-file>
 
@@ -43,8 +43,9 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
 
+        <framework src='src/android/HockeyApp.gradle' custom='true' type='gradleReference' />
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
-        <source-file src="src/android/HockeySDK-Android/libs/HockeySDK-3.5.0.jar" target-dir="libs" framework="true" />
+        <source-file src="src/android/HockeySDK-Android/libs/HockeySDK-3.7.0.aar" target-dir="aar" />
     </platform>
 
     <!-- ios -->

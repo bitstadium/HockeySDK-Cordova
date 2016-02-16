@@ -21,7 +21,7 @@ var hockeyapp = {
         exec(success, failure, "HockeyApp", "feedback", []);
     },
     feedbackModal: function (success, failure, takeScreenshot, data) {
-        exec(success, failure, "HockeyApp", "feedback", [takeScreenshot === true || takeScreenshot === "true", JSON.stringify(data)]);
+        exec(success, failure, "HockeyApp", "feedbackModal", [takeScreenshot === true || takeScreenshot === "true", JSON.stringify(data)]);
     },
     forceCrash: function (success, failure) {
         exec(success, failure, "HockeyApp", "forceCrash", []);
