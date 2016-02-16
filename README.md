@@ -5,7 +5,7 @@ This plugin exposes the HockeyApp SDK for ios and android
 Including:
 
 * HockeyAppSDK-iOS 3.8.2
-* HockeyAppSDK-Android 3.5.0
+* HockeyAppSDK-Android 3.7.0
 
 ## Installation
 
@@ -35,6 +35,12 @@ Important: Only ANONYMOUS is available for iOS devices, other modes will produce
 
 Display tester feedback UI
 
+- **hockeyapp.feedbackModal(sucess:function, error:function, takeScreenshot: boolean, data:any):void**
+
+Display tester modal feedback UI including a screenshot and/or text attachment.  If `takeScreenshot` is true, an image of the screen at the moment that `feedbackModal` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
+
+See also: [CrossWalk considerations](#crosswalk-considerations)   
+
 - **hockeyapp.checkForUpdate(sucess:function, error:function):void**
 
 Check for a new version
@@ -46,6 +52,13 @@ Force crash app
 - **hockeyapp.addMetaData(success:function, error:function, data:object):void**
 
 Adds arbitrary metadata to a crash, which will be displayed in crash reports.
+
+## CrossWalk considerations
+
+An application that is hosted in a CrossWalk View will show a blank screenshot unless the following requirements are met:
+
+- The application references the cordova-plugin-crosswalk-engine plugin version 1.6.0 or above
+- The application links against the xwalk engine version 18 or above
 
 ## Warning
 
