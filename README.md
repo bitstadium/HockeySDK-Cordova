@@ -65,7 +65,7 @@ Will be displayed in crash reports in HockeyApp.
 
 ## CrossWalk considerations
 
-An application that is hosted in a CrossWalk View will show a blank screenshot unless the following requirements are met:
+When calling ```feedbackModal``` from an application that is hosted in a CrossWalk WebView, a blank screenshot will be attached to the report unless the following requirements are met:
 
 - The application references the cordova-plugin-crosswalk-engine plugin version 1.6.0 or above
 - The application links against the xwalk engine version 18 or above
