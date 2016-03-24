@@ -129,6 +129,26 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void) trackEvent:(CDVInvokedUrlCommand *)command {
+    CDVPluginResult* pluginResult = nil;
+    BITMetricsManager *metricsManager = [[BITHockeyManager sharedHockeyManager] metricsManager];
+    NSString *eventName = [command argumentAtIndex:0 withDefault:nil andClass:[NSString class]];
+    if (initialized == YES) {
+        if (eventName) {
+            [metricsManager trackEventWithName:eventName];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:@"hockeyapp cordova plugin: an event name must be provided."];
+        }
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, hockeyapp_id) first!"];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult
+                                callbackId:command.callbackId];
+}
+
 #pragma mark - BITCrashManagerDelegate
 
 - (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
