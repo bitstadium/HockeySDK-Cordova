@@ -4,8 +4,8 @@ This plugin exposes the HockeyApp SDK for iOS and Android
 
 Including:
 
-* HockeyAppSDK-iOS 3.8.5
-* HockeyAppSDK-Android 3.5.0
+* HockeyAppSDK-iOS 4.1.0
+* HockeyAppSDK-Android 4.1.0
 
 ## Installation
 
@@ -53,3 +53,9 @@ Can be used to test the crash reporting feature of HockeyApp.
 hockeyapp.addMetaData(success:function, error:function, data:object):void
 ```
 Will be displayed in crash reports in HockeyApp.
+
+#### Track custom events
+```
+hockeyapp.trackEvent(success:function, error:function, eventName:string):void
+```
+Can be used to record the occurrence of a custom app event in HockeyApp.
