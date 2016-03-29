@@ -43,7 +43,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </config-file>
 
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
-        <source-file src="src/android/HockeySDK-Android/libs/HockeySDK-4.1.0-alpha.1.aar" target-dir="libs" framework="true" />
+        <source-file src="src/android/HockeySDK-Android/libs/HockeySDK-4.1.0-alpha.2.aar" target-dir="libs" framework="true" />
     </platform>
 
     <!-- ios -->
@@ -57,7 +57,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <header-file src="src/ios/HockeyApp.h" />
         <source-file src="src/ios/HockeyApp.m" />
         <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDKResources.bundle" />
-        <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDK.xcconfig" />
         <framework src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework" custom="true" />
         <framework src="libstdc++.dylib" />
         <framework src="libc++.dylib" />
