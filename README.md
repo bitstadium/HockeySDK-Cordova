@@ -42,6 +42,8 @@ hockeyapp.feedback(success:function, error:function):void
 hockeyapp.checkForUpdate(success:function, error:function):void
 ```
 
+*Note: This [should not be called in production/release builds](http://support.hockeyapp.net/discussions/problems/46569-can-i-use-update-manager-with-google-play-store-apps#comment_38058429) intended for the Google Play Store.*
+ 
 #### Force an app crash
 ```
 hockeyapp.forceCrash():void
