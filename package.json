@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-hockeyapp",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Cordova HockeyApp Plugin for android and ios. hockeyapp sdk versions ios: 4.1.0 and android: 4.1.0",
   "cordova": {
     "id": "cordova-plugin-hockeyapp",
