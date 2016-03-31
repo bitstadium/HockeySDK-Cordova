@@ -44,6 +44,8 @@ public class HockeyApp extends CordovaPlugin {
             
             FeedbackManager.register(cordova.getActivity(), appId);
             this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
+            
+            MetricsManager.register(cordova.getActivity(), cordova.getActivity().getApplication(), appId);
             CrashManager.register(cordova.getActivity(), appId, this.crashListener);
             
             // Verify the user
