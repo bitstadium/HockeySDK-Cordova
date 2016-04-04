@@ -3,7 +3,7 @@
 #import "HockeyApp.h"
 #import <HockeySDK/HockeySDK.h>
 
-@interface HockeyApp : CDVPlugin <BITCrashManagerDelegate> {
+@interface HockeyApp : CDVPlugin <BITHockeyManagerDelegate> {
     BOOL initialized;
     NSMutableDictionary *crashMetaData;
 }
