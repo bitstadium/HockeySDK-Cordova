@@ -56,7 +56,7 @@ hockeyapp.forceCrash();
 
 And that's it! Your app will now send crash reports and user metrics (e.g. daily/monthly unique users, # of sessions per day) to the server without doing any additional work. Make sure to remove the call to `forceCrash` once you're satisfied with your test and are ready to begin sending your app to testers and on into production.
 
-If you would like to add additional capabilities to your app (e.g. [detecting updates](#checking-for-updates), [capturing user feedback](#collecting-user-feedback), [adding custom instrmentation to view app-specific usage data](#tracking-custom-events)), then check out the following sections, or view the [API reference](#api-reference) for more details.
+If you would like to add additional capabilities to your app (e.g. [detecting updates](#checking-for-updates), [capturing user feedback](#collecting-user-feedback), [adding custom instrumentation to view app-specific usage data](#tracking-custom-events)), then check out the following sections, or view the [API reference](#api-reference) for more details.
 
 ![User metrics](https://cloud.githubusercontent.com/assets/116461/14294691/2f2ad5e4-fb27-11e5-8e9d-611c8a1dd549.png)
 
@@ -64,7 +64,7 @@ If you would like to add additional capabilities to your app (e.g. [detecting up
 
 <img width="200" src="https://cloud.githubusercontent.com/assets/116461/14295150/48a0be74-fb29-11e5-981f-0f8f60e9f74b.png" align="right" />
 
-If you're using HockeyApp to distribute beta builds to your testers, then you'll likely also want to collect feedback from them in addition to simply viewing crash reports and usage metrics. To do this, simply call the following method in order to display a UI to your users that allows them to send feedback for your app directly to you, and allows you to respond from the HockeyApp portal:
+If you're using HockeyApp to distribute beta builds to your testers, then you'll likely also want to collect feedback from them in addition to simply viewing crash reports and usage metrics. To do this, simply call the following method in order to display a UI to your users that allows them to send receive feedback directly to you:
 
 ```javascript
 hockeyapp.feedback();
@@ -76,7 +76,7 @@ You can call this method in response to a "Give Feedback" button, in a shake ges
 
 ### Checking For Updates
 
-If you would like your beta testers to be notified whenever a new version of your app is available, you can call the following method to check for an update and display an update dialog when available:
+If you would like your beta testers to be notified whenever a new version of your app is available, you can call the following method to check for an update and display a dialog when available:
 
 ```javascript
 hockeyapp.checkForUpdate();
@@ -88,7 +88,7 @@ You can call this method in your `deviceready` handler, in a "Check for update" 
  
 ### Tracking Custom Events
 
-*NOTE: Using this feature currently requires that you be registered with the HockeyApp [preseason program](http://hockeyapp.net/preseason/).*
+*NOTE: Using this feature currently requires being registered with the HockeyApp [preseason program](http://hockeyapp.net/preseason/).*
 
 By default, once you've called the `hockeyapp.start()` method, your app will begin automatically collecting basic metrics for daily and monthly users and sessions. However, it is very likely that you will want to track custom app events (e.g. "View_Cart", "Added_Item") in order to understand how your users are engaging with your app at a more granular/actionable level. In order to instrument your app to capture this data for both beta and production collection, simply call the following method where appropriate in your app:
 
