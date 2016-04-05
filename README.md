@@ -125,7 +125,7 @@ The HockeyApp API is exposed to your app via the global `hockeyapp` object, whic
 ### hockeyapp.addMetadata
 
 ```javascript
-hockeyapp.addMetaData(successCallback: function, errorCallback: function, metadata: Object): void;
+hockeyapp.addMetaData(successCallback: function, errorCallback: function, metadata: Object): void
 ```
 
 Attaches arbitrary metadata to the next crash report in order to provide more context about the user's state. Subsequent calls to this method will "merge" the metadata together into a single JavaScript object that will be sent along with the next crash report.
@@ -141,7 +141,7 @@ __Parameters__:
 ### hockeyapp.feedback
 
 ```javascript
-hockeyapp.feedback(successCallback?: function, errorCallback?: function): void;
+hockeyapp.feedback(successCallback?: function, errorCallback?: function): void
 ```
 
 Displays the feedback UI so that testers can send and receive feedback about the app.
@@ -155,7 +155,7 @@ __Parameters__:
 ### hockeyapp.forceCrash
 
 ```javascript
-hockeyapp.forceCrash(): void;
+hockeyapp.forceCrash(): void
 ```
 
 Immediately crashes the app. This is used strictly for testing the HockeyApp crash reporting capabilities.
@@ -163,7 +163,7 @@ Immediately crashes the app. This is used strictly for testing the HockeyApp cra
 ### hockeyapp.start
 
 ```javascript
-hockeyapp.start(successCallback: function, errorCallback: function, appId: string, autoSend?: boolean, ignoreDefaultHandler?: boolean, loginMode?: hockeyapp.loginMode, appSecret?: string): void;
+hockeyapp.start(successCallback: function, errorCallback: function, appId: string, autoSend?: boolean, ignoreDefaultHandler?: boolean, loginMode?: hockeyapp.loginMode, appSecret?: string): void
 ```
 
 Initializes the HockeyApp plugin, and configures it with the appropriate app ID and user settings (e.g. should crash reports be automatically submitted).
@@ -197,7 +197,7 @@ __Parameters__:
 ### hockeyapp.trackEvent
 
 ```javascript
-hockeyapp.trackEvent(successCallback: function, errorCallback: function, eventName: string): void;
+hockeyapp.trackEvent(successCallback: function, errorCallback: function, eventName: string): void
 ```
 
 Logs an app-specific event for analytic purposes.
