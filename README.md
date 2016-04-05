@@ -112,7 +112,7 @@ When you view a crash report in the HockeyApp portal, you can see the metadata t
 
 The HockeyApp API is exposed to your app via the global `hockeyapp` object, which is available after the `deviceready` event has fired. This API exposes the following top-level methods:
 
-* [**addMetaData**](#hockeyappaddMetadata) - Attaches arbitrary metadata to the next crash report in order to provide more context about the user's state.
+* [**addMetaData**](#hockeyappaddmetadata) - Attaches arbitrary metadata to the next crash report in order to provide more context about the user's state.
 
 * [**feedback**](#hockeyappfeedback) - Displays the feedback UI so that testers can send and receive feedback about the app.
 
