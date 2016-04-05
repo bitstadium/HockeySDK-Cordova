@@ -62,7 +62,7 @@ If you would like to add additional capabilities to your app (e.g. [detecting up
 
 ### Collecting User Feedback
 
-<img width="200" src="https://cloud.githubusercontent.com/assets/116461/14295150/48a0be74-fb29-11e5-981f-0f8f60e9f74b.png" align="right" />
+<img width="340" src="https://cloud.githubusercontent.com/assets/116461/14295150/48a0be74-fb29-11e5-981f-0f8f60e9f74b.png" align="right" />
 
 If you're using HockeyApp to distribute beta builds to your testers, then you'll likely also want to collect feedback from them in addition to simply viewing crash reports and usage metrics. To do this, simply call the following method in order to display a UI to your users that allows them to send receive feedback directly to you:
 
@@ -71,8 +71,6 @@ hockeyapp.feedback();
 ```
 
 You can call this method in response to a "Give Feedback" button, in a shake gesture handler, or wherever is appropriate for your app.
-
-<br style="clear: right" />
 
 ### Checking For Updates
 
