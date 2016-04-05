@@ -57,7 +57,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
         <header-file src="src/ios/HockeyApp.h" />
         <source-file src="src/ios/HockeyApp.m" />
-        <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDKResources.bundle" />
+        <resource-file src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
         <framework src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework" custom="true" />
         <framework src="libstdc++.dylib" />
         <framework src="libc++.dylib" />
