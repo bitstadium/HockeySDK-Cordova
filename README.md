@@ -15,7 +15,7 @@ This plugin provides client-side integration for the [HockeyApp](http://hockeyap
 Cordova 5.0.0+ is fully supported, along with the following associated platforms:
 
 - Android ([cordova-android](https://github.com/apache/cordova-android) 4.0.0+) - *Including [CrossWalk](https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview)*
-- iOS ([cordova-ios](https://github.com/apache/cordova-ios) 3.9.0+) - *Including [WKWebView](https://github.com/apache/cordova-plugin-wkwebview-engine)*
+- iOS ([cordova-ios](https://github.com/apache/cordova-ios) 3.8.0+) - *Including [WKWebView](https://github.com/apache/cordova-plugin-wkwebview-engine) (which requires 4.0.0+)*
 
 To check which versions of each Cordova platform you are currently using, you can run the following command and inspect the `Installed platforms` list:
 
