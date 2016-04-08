@@ -1,4 +1,4 @@
-# Cordova Plugin for HockeyApp
+# Cordova plugin for HockeyApp
 
 This plugin provides client-side integration for the [HockeyApp](http://hockeyapp.net) service, allowing you to easily add crash reporting, beta distribution and user metrics to your Cordova app(s).
 
@@ -32,19 +32,21 @@ cordova platform update ios
 
 ## Getting Started
 
-After you've created your HockeyApp account, and registered your app with the service, you can begin integrating the Cordova plugin into your app by running the following command:
+After you've created your [HockeyApp](http://hockeyapp.net) account, and registered your app with the service, you can begin integrating the Cordova plugin into your app by running the following command:
 
 ```shell
 cordova plugin add cordova-plugin-hockeyapp@latest
 ```
 
-With the CodePush plugin installed, configure your app to initialize the HockeyApp client (using your app ID) by calling the following function within your `deviceready` handler (or the equivalent location):
+With the plugin installed, configure the HockeyApp plugin with the correct app ID by calling the following function within your `deviceready` handler (or an equivalent location):
 
 ```javascript
 hockeyapp.start(null, null, "APP_ID");
 ```
 
-As a reminder, the app ID can be retrieved from the details page of your app in the HockeyApp portal (see the `App ID` field below). 
+*NOTE: The two `null` parameters represent the success and error callbacks. If you'd like to listen to these events, you can simply pass in function objects instead of `null`.*
+
+As a reminder, your app ID can be retrieved from the details page of the app within the HockeyApp portal (see the `App ID` field below). 
 
 <img width="300" src="https://cloud.githubusercontent.com/assets/116461/14294392/b5d4dcea-fb25-11e5-8d36-9bcc76368f86.png" />
 
@@ -54,7 +56,7 @@ If you would like to test out the crash reporting feature and don't already have
 hockeyapp.forceCrash();
 ```
 
-And that's it! Your app will now send crash reports and user metrics (e.g. daily/monthly unique users, # of sessions per day) to the server without doing any additional work. Make sure to remove the call to `forceCrash` once you're satisfied with your test and are ready to begin sending your app to testers and on into production.
+And that's it! Your app will now send crash reports and user metrics (e.g. daily/monthly unique users, # of sessions per day) to the server without doing any additional work. Make sure to remove the call to `forceCrash` once you're satisfied that the plugin is configured corrctly, and you're ready to begin sending your app to testers and on into production.
 
 If you would like to add additional capabilities to your app (e.g. [detecting updates](#checking-for-updates), [capturing user feedback](#collecting-user-feedback), [adding custom instrumentation to view app-specific usage data](#tracking-custom-events)), then check out the following sections, or view the [API reference](#api-reference) for more details.
 
@@ -64,7 +66,7 @@ If you would like to add additional capabilities to your app (e.g. [detecting up
 
 <img width="340" src="https://cloud.githubusercontent.com/assets/116461/14295150/48a0be74-fb29-11e5-981f-0f8f60e9f74b.png" align="right" />
 
-If you're using HockeyApp to distribute beta builds to your testers, then you'll likely also want to collect feedback from them in addition to simply viewing crash reports and usage metrics. To do this, simply call the following method in order to display a UI to your users that allows them to send receive feedback directly to you:
+If you're using HockeyApp to distribute beta builds to your testers, then you'll likely also want to collect feedback from them in addition to viewing crash reports and usage metrics. To do this, simply call the following method in order to display a UI that allows your users to send app feedback directly to you:
 
 ```javascript
 hockeyapp.feedback();
@@ -74,7 +76,7 @@ You can call this method in response to a "Give Feedback" button, in a shake ges
 
 ### Checking For Updates
 
-If you would like your beta testers to be notified whenever a new version of your app is available, you can call the following method to check for an update and display a dialog when available:
+If you would like your beta testers to be notified whenever a new version of your app is available (i.e. you uploaded a new build to HockeyApp), you can call the following method to check for an update and display a dialog if/when available:
 
 ```javascript
 hockeyapp.checkForUpdate();
@@ -96,13 +98,13 @@ hockeapp.trackEvent(null, null, "EVENT_NAME");
 
 ### Enhancing Crash Reports
 
-By default, any time your app crashes, the report sent to HockeyApp will include the call stack, as well as various other pieces of information (e.g. OS, device manufacturer) to help narrow down and/or repro the cause of the issue. However, it can be very helpful to understand the context of the users app when inspecting a crash report, and therefore, if you need to "attach" additional metadata to a crash report, you can simply add the following line of code:
+By default, any time your app crashes, the report sent to HockeyApp will include the call stack, as well as various other pieces of information (e.g. OS, device manufacturer) to help narrow down and/or repro the cause of the issue. However, it can be very helpful to understand the context of the users app when inspecting a crash report, and therefore, if you need to "attach" additional metadata to a crash report, you can simply call the following method:
 
 ```javascript
 hockeyapp.addMetaData(null, null { someCustomProp: 23, anotherProp: "Value" });
 ```
  
-The metadata property accepts an arbitrary JavaScript object, and therefore, can be used to log any strings, booleans, numbers, etc. Subsequent calls to the `addMetaData` method will "merge" the objects together such that any future crash reports will include a union of all object properties that were specified by any call to `addMetaData`.
+The metadata property accepts an arbitrary JavaScript object, and therefore, can be used to log any strings, booleans, numbers, etc. Subsequent calls to the `addMetaData` method will "merge" the objects together such that any future crash reports will include a union of all object properties that were specified by any call to `addMetaData` since the last crash was reported.
 
 When you view a crash report in the HockeyApp portal, you can see the metadata that you attached to it by selecting the **Description** button underneath the **Data** section within the **Crash Logs** tab of the respective crash report.
 
