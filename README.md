@@ -124,7 +124,7 @@ The HockeyApp API is exposed to your app via the global `hockeyapp` object, whic
 
 * [**trackEvent**](#hockeyapptrackevent) - Logs an app-specific event for analytic purposes.
 
-### hockeyapp.addMetadata
+### hockeyapp.addMetaData
 
 ```javascript
 hockeyapp.addMetaData(successCallback: function, errorCallback: function, metadata: Object): void
@@ -143,16 +143,10 @@ Attaches arbitrary metadata to the next crash report in order to provide more co
 ### hockeyapp.feedback
 
 ```javascript
-hockeyapp.feedback(successCallback?: function, errorCallback?: function): void
+hockeyapp.feedback(): void
 ```
 
 Displays the feedback UI so that testers can send and receive feedback about the app.
-
-#### Parameters
-
-* **successCallback** - `Function` that will be triggered when the feedback UI is successfully displayed.
-
-* **errorCallback** - `Function` that will be triggered when an error occurs displaying the feedback UI.
 
 ### hockeyapp.forceCrash
 
