@@ -1,4 +1,4 @@
-# Cordova plugin for HockeyApp
+# Cordova Plugin for HockeyApp
 
 This plugin provides client-side integration for the [HockeyApp](http://hockeyapp.net) service, allowing you to easily add crash reporting, beta distribution and user metrics to your Cordova app(s).
 
@@ -132,13 +132,13 @@ hockeyapp.addMetaData(successCallback: function, errorCallback: function, metada
 
 Attaches arbitrary metadata to the next crash report in order to provide more context about the user's state. Subsequent calls to this method will "merge" the metadata together into a single JavaScript object that will be sent along with the next crash report.
 
-__Parameters__:
+#### Parameters
 
-* **successCallback** - Function that will be triggered when the metadata has been successfully added.
+1. **successCallback** - `Function` that will be triggered when the metadata has been successfully added.
 
-* **errorCallback** - Function that will be triggered when adding the metadata failed for some reason.
+2. **errorCallback** - `Function` that will be triggered when adding the metadata failed for some reason.
 
-* **metaData** - A JavaScript object that describes the metadata (i.e. properties and values) that you wuold like to attach to the next crash report.
+3. **metaData** - A JavaScript object that describes the metadata (i.e. properties and values) that you wuold like to attach to the next crash report.
 
 ### hockeyapp.feedback
 
@@ -148,11 +148,11 @@ hockeyapp.feedback(successCallback?: function, errorCallback?: function): void
 
 Displays the feedback UI so that testers can send and receive feedback about the app.
 
-__Parameters__:
+#### Parameters
 
-* **successCallback** - Function that will be triggered when the feedback UI is successfully displayed.
+* **successCallback** - `Function` that will be triggered when the feedback UI is successfully displayed.
 
-* **errorCallback** - Function that will be triggered when an error occurs displaying the feedback UI.
+* **errorCallback** - `Function` that will be triggered when an error occurs displaying the feedback UI.
 
 ### hockeyapp.forceCrash
 
@@ -170,19 +170,19 @@ hockeyapp.start(successCallback: function, errorCallback: function, appId: strin
 
 Initializes the HockeyApp plugin, and configures it with the appropriate app ID and user settings (e.g. should crash reports be automatically submitted).
 
-__Parameters__:
+#### Parameters
 
-* **successCallback** - Function that will be triggered when the initialization is successful.
+1. **successCallback** - `Function` that will be triggered when the initialization is successful.
 
-* **errorCallback** - Function that will be triggered when an error occurs trying to initialize the plugin.
+2. **errorCallback** - `Function` that will be triggered when an error occurs trying to initialize the plugin.
 
-* **appID** - The ID of the app as provided by the HockeyApp portal.
+3. **appID** - The ID of the app as provided by the HockeyApp portal.
 
-* **autoSend** - Specifies whether you would like crash reports to be automatically sent to the HockeyApp server when the end user restarts the app. Defaults to `false`.
+4. **autoSend** - Specifies whether you would like crash reports to be automatically sent to the HockeyApp server when the end user restarts the app. Defaults to `false`.
 
-* **ignoreDefaultHandler** - Specifies whether you would like to display the standard dialog when the app is about to crash. This parameter is only relevant on Android, and therefore, you can set it to anything on iOS. Defaults to `false`.
+5. **ignoreDefaultHandler** - Specifies whether you would like to display the standard dialog when the app is about to crash. This parameter is only relevant on Android, and therefore, you can set it to anything on iOS. Defaults to `false`.
 
-* **loginMode** - The mechanism to use in order to authenticate users. Defaults to `hockeyapp.loginMode.ANONYMOUS`. The `hockeyapp.loginMode` enum provides the following available options:
+6. **loginMode** - The mechanism to use in order to authenticate users. Defaults to `hockeyapp.loginMode.ANONYMOUS`. The `hockeyapp.loginMode` enum provides the following available options:
 
     - `ANONYMOUS` - The end user isn't authenticated at all.
     
@@ -194,7 +194,7 @@ __Parameters__:
 
     *NOTE: Only the `ANONYMOUS` login mode is supported on iOS, and therefore, you can only use the other modes within Android apps.*
 
-* **appSecret** - The app secret as provided by the HockeyApp portal. This parameter only needs to be set if you're setting the `loginMode` parameter to `EMAIL_ONLY`.
+7. **appSecret** - The app secret as provided by the HockeyApp portal. This parameter only needs to be set if you're setting the `loginMode` parameter to `EMAIL_ONLY`.
 
 ### hockeyapp.trackEvent
 
@@ -204,10 +204,10 @@ hockeyapp.trackEvent(successCallback: function, errorCallback: function, eventNa
 
 Logs an app-specific event for analytic purposes.
 
-__Parameters__:
+#### Parameters
 
-* **successCallback** - Function that will be triggered when the event has been successfully tracked.
+1. **successCallback** - `Function` that will be triggered when the event has been successfully tracked.
 
-* **errorCallback** - Function that will be triggered when tracking the event failed for some reason.
+2. **errorCallback** - `Function` that will be triggered when tracking the event failed for some reason.
 
-* **eventName** - The name (e.g. "ITEM_ADDED") of the custom event that should be logged.
+3. **eventName** - The name (e.g. "ITEM_ADDED") of the custom event that should be logged.
