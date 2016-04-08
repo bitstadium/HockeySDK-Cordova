@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-hockeyapp",
-  "version": "2.2.1",
-  "description": "Cordova HockeyApp Plugin for android and ios. hockeyapp sdk versions ios: 4.1.0 and android: 4.1.0",
+  "version": "2.2.2",
+  "description": "Cordova plugin for HockeyApp",
   "cordova": {
     "id": "cordova-plugin-hockeyapp",
     "platforms": [
@@ -19,12 +19,6 @@
     "ecosystem:cordova",
     "cordova-android",
     "cordova-ios"
-  ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.0.0"
-    }
   ],
   "author": "Paul Panserrieu <paul@42loops.com>",
   "license": "Apache-2.0",
