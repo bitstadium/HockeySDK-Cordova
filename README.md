@@ -74,6 +74,14 @@ hockeyapp.feedback();
 
 You can call this method in response to a "Give Feedback" button, in a shake gesture handler, or wherever is appropriate for your app.
 
+#### Capturing Data For User Feedback
+
+If you would like to include additional data to include with user feedback, you can call the following API and indicate whether to include a screen shot of the device and/or arbitrary data from your application at the time that the API is called:
+
+```javascript
+hockeyapp.feedbackModal(null, null, true, appData);
+``` 
+
 ### Checking For Updates
 
 If you would like your beta testers to be notified whenever a new version of your app is available (i.e. you uploaded a new build to HockeyApp), you can call the following method to check for an update and display a dialog if/when available:
@@ -148,14 +156,31 @@ hockeyapp.feedback(): void
 
 Displays the feedback UI so that testers can send and receive feedback about the app.
 
-#### Display modal tester feedback user interface with attachments
-```
-hockeyapp.feedbackModal(sucess:function, error:function, takeScreenshot: boolean, data:any):void
+### hockeyapp.feedbackModal
+
+```javascript
+hockeyapp.feedbackModal(sucessCallback:function, errorCallback:function, takeScreenshot:boolean, data:any): void
 ```
 
 Display tester modal feedback UI including a screenshot and/or text attachment.  If `takeScreenshot` is true, an image of the screen at the moment that `feedbackModal` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
 
-See also: [CrossWalk considerations](#crosswalk-considerations)   
+#### Parameters
+
+1. **successCallback** - `Function` that will be triggered when the feedback action completes successfully.
+
+2. **errorCallback** - `Function` that will be triggered when the feedback action fails.
+
+3. **takeScreenshot** - `boolean` indicating whether to capture the device screen at the time the function is called.
+
+4. **data** - `any` *(optional)* object that will be serialized to JSON and sent with the feedback report as data. 
+
+
+##### *Using CrossWalk WebViews*
+
+When calling ```feedbackModal``` from an application that is hosted in a CrossWalk WebView, a blank screenshot will be attached to the report unless the following requirements are met:
+
+- The application references the cordova-plugin-crosswalk-engine plugin version 1.6.0 or above
+- The application links against the xwalk engine version 18 or above   
 
 ### hockeyapp.forceCrash
 
@@ -215,9 +240,3 @@ Logs an app-specific event for analytic purposes.
 
 3. **eventName** - The name (e.g. "ITEM_ADDED") of the custom event that should be logged.
 
-## CrossWalk considerations
-
-When calling ```feedbackModal``` from an application that is hosted in a CrossWalk WebView, a blank screenshot will be attached to the report unless the following requirements are met:
-
-- The application references the cordova-plugin-crosswalk-engine plugin version 1.6.0 or above
-- The application links against the xwalk engine version 18 or above
