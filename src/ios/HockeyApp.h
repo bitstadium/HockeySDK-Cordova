@@ -3,7 +3,7 @@
 #import "HockeyApp.h"
 #import <HockeySDK/HockeySDK.h>
 
-@interface HockeyApp : CDVPlugin <BITCrashManagerDelegate> {
+@interface HockeyApp : CDVPlugin <BITHockeyManagerDelegate> {
     BOOL initialized;
     NSMutableDictionary *crashMetaData;
 }
@@ -14,5 +14,6 @@
 - (void)checkForUpdate:(CDVInvokedUrlCommand*)command;
 - (void)forceCrash:(CDVInvokedUrlCommand*)command;
 - (void)addMetaData:(CDVInvokedUrlCommand*)command;
+- (void)trackEvent:(CDVInvokedUrlCommand*)command;
 
 @end

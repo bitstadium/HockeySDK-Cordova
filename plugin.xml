@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-           id="cordova-plugin-hockeyapp"
-xmlns:android="http://schemas.android.com/apk/res/android"
-      version="2.1.0">
+<plugin id="cordova-plugin-hockeyapp" version="2.2.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>HockeyApp</name>
-    <description>Cordova HockeyApp Plugin for android and ios. (hockeyapp sdk versions ios: 3.8.5 and android: 3.5.0)</description>
+    <description>Cordova plugin for HockeyApp</description>
     <license>Apache 2.0</license>
     <keywords>cordova,hockeyapp</keywords>
     <author>Paul Panserrieu</author>
-
-    <repo>https://github.com/peutetre/cordova-plugin-hockeyapp.git</repo>
-    <issue>https://github.com/peutetre/cordova-plugin-hockeyapp/issues</issue>
-
+    <repo>https://github.com/bitstadium/HockeySDK-Cordova</repo>
+    <issue>https://github.com/bitstadium/HockeySDK-Cordova/issues</issue>
+    
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova-android" version=">=4.0.0" />
+        <engine name="cordova-ios" version=">=3.8.0" />
     </engines>
-
+    <access origin="*.hockeyapp.net" />
+    
     <js-module src="www/hockeyapp.js" name="HockeyApp">
         <clobbers target="hockeyapp" />
     </js-module>
-
-    <access origin="*.hockeyapp.net" />
-
-    <!-- android -->
+    
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="HockeyApp">
@@ -42,36 +36,35 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
 
-        <framework src='src/android/HockeyApp.gradle' custom='true' type='gradleReference' />
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
-        <source-file src="src/android/HockeySDK-Android/libs/HockeySDK-3.7.0.aar" target-dir="aar" />
+        <resource-file src="src/android/HockeySDK-Android/libs/HockeySDK-4.1.0-alpha.2.aar" target="libs/HockeySDK-4.1.0-alpha.2.aar" />
     </platform>
-
-    <!-- ios -->
+    
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="HockeyApp">
                 <param name="ios-package" value="HockeyApp"/>
             </feature>
         </config-file>
-
         <header-file src="src/ios/HockeyApp.h" />
         <source-file src="src/ios/HockeyApp.m" />
-        <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDKResources.bundle" />
-        <resource-file src="src/ios/HockeySDK.embeddedframework/Resources/HockeySDK.xcconfig" />
+        <resource-file src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
         <framework src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework" custom="true" />
         <framework src="libstdc++.dylib" />
         <framework src="libc++.dylib" />
+        <framework src="libz.tbd" />
         <framework src="AssetsLibrary.framework" />
         <framework src="CoreText.framework" />
+        <framework src="CoreTelephony.framework" />
         <framework src="CoreGraphics.framework" />
         <framework src="Foundation.framework" />
         <framework src="MobileCoreServices.framework" />
+        <framework src="Photos.framework" />
         <framework src="QuartzCore.framework" />
         <framework src="QuickLook.framework" />
         <framework src="Security.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="UIKit.framework" />
     </platform>
-
 </plugin>

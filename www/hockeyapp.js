@@ -32,6 +32,9 @@ var hockeyapp = {
     addMetaData: function (success, failure, data) {
         exec(success, failure, "HockeyApp", "addMetaData", [JSON.stringify(data)]);
     },
+    trackEvent: function (success, failure, eventName) {
+        exec(success, failure, "HockeyApp", "trackEvent", [eventName]);
+    },
     
     // Valid loginMode values
     loginMode: {

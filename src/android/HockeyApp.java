@@ -13,6 +13,7 @@ import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.FeedbackManager;
 import net.hockeyapp.android.LoginManager;
 import net.hockeyapp.android.LoginManagerListener;
+import net.hockeyapp.android.metrics.MetricsManager;
 import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 
@@ -108,6 +109,8 @@ public class HockeyApp extends CordovaPlugin {
             
             FeedbackManager.register(cordova.getActivity(), appId);
             this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
+            
+            MetricsManager.register(cordova.getActivity(), cordova.getActivity().getApplication(), appId);
             CrashManager.register(cordova.getActivity(), appId, this.crashListener);
             
             // Verify the user
@@ -259,6 +262,18 @@ public class HockeyApp extends CordovaPlugin {
             } catch (JSONException e) {
                 callbackContext.error("failed to parse metadata. Ignoring....");
                 return false;
+            }
+        }
+        
+        if (action.equals("trackEvent")) {
+            String eventName = args.optString(0);
+            if (eventName.isEmpty()) {
+                callbackContext.error("no event name provided. Ignoring....");
+                return false;
+            } else { 
+                MetricsManager.trackEvent(eventName);
+                callbackContext.success();
+                return true;
             }
         }
 
