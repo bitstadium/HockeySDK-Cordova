@@ -9,6 +9,7 @@ This plugin provides client-side integration for the [HockeyApp](http://hockeyap
     * [Tracking Custom Events](#tracking-custom-events)
     * [Enhancing Crash Reports](#enhancing-crash-reports)
 * [API Reference](#api-reference)
+* [PhoneGap Build](#phonegap-build)
 
 ## Supported Cordova Platforms
 
@@ -205,3 +206,11 @@ Logs an app-specific event for analytic purposes.
 2. **errorCallback** - `Function` that will be triggered when tracking the event failed for some reason.
 
 3. **eventName** - The name (e.g. "ITEM_ADDED") of the custom event that should be logged.
+
+### PhoneGap Build
+
+This plugin is compatible with [PhoneGap Build](https://build.phonegap.com), and supports creating iOS builds out-of-the-box. However, in order to create Android builds, you need to add the following element to your app's `config.xml` file, as a child of the `<platform name="android">` element:
+
+```xml
+<preference name="android-build-tool" value="gradle" />
+```
