@@ -21,7 +21,11 @@ var hockeyapp = {
         exec(success, failure, "HockeyApp", "feedback", []);
     },
     composeFeedback: function (success, failure, attachScreenshot, data) {
-        exec(success, failure, "HockeyApp", "composeFeedback", [attachScreenshot === true || attachScreenshot === "true", JSON.stringify(data)]);
+        var parameters = [attachScreenshot === true || attachScreenshot === "true"];
+        if (data != undefined) {
+            parameters.push(JSON.stringify(data));
+        }
+        exec(success, failure, "HockeyApp", "composeFeedback", parameters);
     },
     forceCrash: function (success, failure) {
         exec(success, failure, "HockeyApp", "forceCrash", []);

@@ -86,10 +86,9 @@
             UIImage* screenshot = [[BITHockeyManager sharedHockeyManager].feedbackManager screenshot];
             [items addObject:screenshot];
         }
-
         
-        NSString* jsonData = [command argumentAtIndex:1];
-        if (jsonData != nil) {
+        if ([command.arguments count] > 1) {
+            NSString* jsonData = [command argumentAtIndex:1];
             NSData* data = [jsonData dataUsingEncoding:NSUTF8StringEncoding];
             [items addObject:data];
         }

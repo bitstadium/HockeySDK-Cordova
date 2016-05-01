@@ -127,6 +127,8 @@ The HockeyApp API is exposed to your app via the global `hockeyapp` object, whic
 
 * [**feedback**](#hockeyappfeedback) - Displays the feedback UI so that testers can send and receive feedback about the app.
 
+* [**composeFeedback**](#hockeyappcomposefeedback) - Displays the compose feedback UI and optionally attaches a screenshot and/or arbitrary data to the feedback report.
+
 * [**forceCrash**](#hockeyappforcecrash) - Immediately crashes the app. This is used strictly for testing the HockeyApp crash reporting capabilities.
 
 * [**start**](#hockeyappstart) - Initializes the HockeyApp plugin, and configures it with the approrpiate app ID and user settings (e.g. should crash reports be automatically submitted).
@@ -163,7 +165,7 @@ Displays the feedback UI so that testers can send and receive feedback about the
 hockeyapp.composeFeedback(sucessCallback:function, errorCallback:function, attachScreenshot:boolean, data:any): void
 ```
 
-Display tester modal feedback UI including a screenshot and/or text attachment.  If `attachScreenshot` is true, an image of the screen at the moment that `composeFeedback` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
+Displays the compose feedback UI and optionally attaches a screenshot and/or arbitrary data to the feedback report.  If `attachScreenshot` is true, an image of the screen at the moment that `composeFeedback` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
 
 #### Parameters
 

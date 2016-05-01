@@ -194,8 +194,8 @@ public class HockeyApp extends CordovaPlugin {
                     return false;
                 }
             }
-            String jsonData = args.optString(1);
-            if (jsonData != "") {
+            if (args.length() > 1) {
+                String jsonData = args.optString(1);
                 try {
                     File dataFile = File.createTempFile("logs", ".json", context.getFilesDir());
                     dataFile.deleteOnExit();
