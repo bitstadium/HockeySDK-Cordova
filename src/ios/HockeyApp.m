@@ -74,15 +74,15 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void) feedbackModal:(CDVInvokedUrlCommand*)command
+- (void) composeFeedback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
     
     if(initialized == YES) {
         NSMutableArray* items = [NSMutableArray array];
         
-        BOOL takeScreenshot = [[command argumentAtIndex:0] boolValue];
-        if (takeScreenshot) {
+        BOOL attachScreenshot = [[command argumentAtIndex:0] boolValue];
+        if (attachScreenshot) {
             UIImage* screenshot = [[BITHockeyManager sharedHockeyManager].feedbackManager screenshot];
             [items addObject:screenshot];
         }

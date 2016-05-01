@@ -47,11 +47,9 @@ public class HockeyApp extends CordovaPlugin {
     
     private ConfiguredCrashManagerListener crashListener;
     
-    // Integration with the XWalk plugin requires a version with the following change in it:
-    // https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview/pull/77/files
-    // Which will be whatever comes after 1.5.0    
-    // The captureXWalkBitmap message used by the plugin also requires version 18+ of the xwalk engine
-   
+    // Integration with Crosswalk requires:
+    // - Crosswalk engine version 18 or later
+    // - Latest cordova-plugin-crosswalk-webview plugin     
     private Bitmap getBitmap() {
         bitmap = null;
         boolean isCrosswalk = false;
@@ -63,13 +61,7 @@ public class HockeyApp extends CordovaPlugin {
 
         if (isCrosswalk) {
             long start = System.currentTimeMillis();
-            // BUGBUG: Currently there's an exception launched from the XWalk engine if the message is not sent from the UI thread
-            cordova.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    webView.getPluginManager().postMessage("captureXWalkBitmap", this);                
-                }
-            });
+            webView.getPluginManager().postMessage("captureXWalkBitmap", this);
             try {
                 // Can't take more than 5 seconds to get a screenshot
                 while (bitmap == null && System.currentTimeMillis() - start < 5000) {
@@ -77,7 +69,7 @@ public class HockeyApp extends CordovaPlugin {
                         monitor.wait(50);
                     }
                 }
-            } catch (InterruptedException e) {                
+            } catch (InterruptedException e) {
             }
         } else {
             View view = webView.getView();
@@ -180,11 +172,11 @@ public class HockeyApp extends CordovaPlugin {
             return true;
         }
         
-        if (action.equals("feedbackModal")) {
+        if (action.equals("composeFeedback")) {
             final ArrayList<Uri> attachments = new ArrayList<Uri>();
             final Activity context = cordova.getActivity();
-            boolean takeScreenshot = args.optBoolean(0);
-            if (takeScreenshot) {
+            boolean attachScreenshot = args.optBoolean(0);
+            if (attachScreenshot) {
                 Bitmap screenshot = getBitmap();
                 if (screenshot == null) {
                     callbackContext.error("failed to take screenshot");
@@ -198,7 +190,7 @@ public class HockeyApp extends CordovaPlugin {
                     stream.close();
                     attachments.add(Uri.fromFile(imageFile));
                 } catch (IOException e) {
-                    callbackContext.error("failed to take screenshot");
+                    callbackContext.error("failed to save screenshot");
                     return false;
                 }
             }

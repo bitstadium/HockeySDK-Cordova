@@ -74,12 +74,12 @@ hockeyapp.feedback();
 
 You can call this method in response to a "Give Feedback" button, in a shake gesture handler, or wherever is appropriate for your app.
 
-#### Capturing Data For User Feedback
+#### Composing User Feedback With Data
 
 If you would like to include additional data to include with user feedback, you can call the following API and indicate whether to include a screen shot of the device and/or arbitrary data from your application at the time that the API is called:
 
 ```javascript
-hockeyapp.feedbackModal(null, null, true, appData);
+hockeyapp.composeFeedback(null, null, true, appData);
 ``` 
 
 ### Checking For Updates
@@ -156,13 +156,13 @@ hockeyapp.feedback(): void
 
 Displays the feedback UI so that testers can send and receive feedback about the app.
 
-### hockeyapp.feedbackModal
+### hockeyapp.composeFeedback
 
 ```javascript
-hockeyapp.feedbackModal(sucessCallback:function, errorCallback:function, takeScreenshot:boolean, data:any): void
+hockeyapp.composeFeedback(sucessCallback:function, errorCallback:function, attachScreenshot:boolean, data:any): void
 ```
 
-Display tester modal feedback UI including a screenshot and/or text attachment.  If `takeScreenshot` is true, an image of the screen at the moment that `feedbackModal` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
+Display tester modal feedback UI including a screenshot and/or text attachment.  If `attachScreenshot` is true, an image of the screen at the moment that `composeFeedback` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
 
 #### Parameters
 
@@ -170,14 +170,14 @@ Display tester modal feedback UI including a screenshot and/or text attachment. 
 
 2. **errorCallback** - `Function` that will be triggered when the feedback action fails.
 
-3. **takeScreenshot** - `boolean` indicating whether to capture the device screen at the time the function is called.
+3. **attachScreenshot** - `boolean` indicating whether to capture the device screen at the time the function is called.
 
 4. **data** - `any` *(optional)* object that will be serialized to JSON and sent with the feedback report as data. 
 
 
 ##### *Using CrossWalk WebViews*
 
-When calling ```feedbackModal``` from an application that is hosted in a CrossWalk WebView, a blank screenshot will be attached to the report unless the following requirements are met:
+When calling ```composeFeedback``` from an application that is hosted in a CrossWalk WebView, a blank screenshot will be attached to the report unless the following requirements are met:
 
 - The application references the cordova-plugin-crosswalk-engine plugin version 1.6.0 or above
 - The application links against the xwalk engine version 18 or above   
