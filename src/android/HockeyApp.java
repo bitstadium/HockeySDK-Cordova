@@ -40,6 +40,10 @@ import android.view.View;
 
 public class HockeyApp extends CordovaPlugin {
 
+    public static final long XWALK_SCREENSHOT_WAIT_MS = 5000;
+    public static final String XWALK_SCREENSHOT_CAPTURE_MSG = "captureXWalkBitmap";
+    public static final String XWALK_SCREENSHOT_BITMAP_MSG = "onGotXWalkBitmap";
+    
     public static boolean initialized = false;
     public static String appId;
     public static Object monitor = new Object();
@@ -61,13 +65,15 @@ public class HockeyApp extends CordovaPlugin {
 
         if (isCrosswalk) {
             long start = System.currentTimeMillis();
-            webView.getPluginManager().postMessage("captureXWalkBitmap", this);
+            webView.getPluginManager().postMessage(XWALK_SCREENSHOT_CAPTURE_MSG, this);
             try {
                 // Can't take more than 5 seconds to get a screenshot
-                while (bitmap == null && System.currentTimeMillis() - start < 5000) {
+                long wait = XWALK_SCREENSHOT_WAIT_MS;
+                while (bitmap == null && wait > 0) {
                     synchronized (monitor) {
-                        monitor.wait(50);
+                        monitor.wait(wait);
                     }
+                    wait = XWALK_SCREENSHOT_WAIT_MS - (System.currentTimeMillis() - start);
                 }
             } catch (InterruptedException e) {
             }
@@ -83,7 +89,7 @@ public class HockeyApp extends CordovaPlugin {
 
     @Override
     public Object onMessage(String id, Object data) {
-        if (id.equals("onGotXWalkBitmap")) {
+        if (id.equals(XWALK_SCREENSHOT_BITMAP_MSG)) {
             bitmap = (Bitmap)data;
             synchronized (monitor) {
                 monitor.notify();                
@@ -183,7 +189,7 @@ public class HockeyApp extends CordovaPlugin {
                     return false;
                 }
                 try{
-                    File imageFile = File.createTempFile("screen", ".jpg", context.getFilesDir());
+                    File imageFile = File.createTempFile("hockeyapp-scrn", ".jpg", context.getFilesDir());
                     imageFile.deleteOnExit();
                     FileOutputStream stream = new FileOutputStream(imageFile);
                     screenshot.compress(Bitmap.CompressFormat.JPEG, 95, stream);
@@ -197,7 +203,7 @@ public class HockeyApp extends CordovaPlugin {
             if (args.length() > 1) {
                 String jsonData = args.optString(1);
                 try {
-                    File dataFile = File.createTempFile("logs", ".json", context.getFilesDir());
+                    File dataFile = File.createTempFile("hockeyapp-data", ".json", context.getFilesDir());
                     dataFile.deleteOnExit();
                     FileWriter writer = new FileWriter(dataFile);
                     writer.write(jsonData);
