@@ -67,15 +67,11 @@ public class HockeyApp extends CordovaPlugin {
             long start = System.currentTimeMillis();
             webView.getPluginManager().postMessage(XWALK_SCREENSHOT_CAPTURE_MSG, this);
             try {
-                // Can't take more than 5 seconds to get a screenshot
-                long wait = XWALK_SCREENSHOT_WAIT_MS;
-                while (bitmap == null && wait > 0) {
-                    synchronized (monitor) {
-                        monitor.wait(wait);
-                    }
-                    wait = XWALK_SCREENSHOT_WAIT_MS - (System.currentTimeMillis() - start);
+                synchronized (monitor) {
+                    monitor.wait(XWALK_SCREENSHOT_WAIT_MS);
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
             }
         } else {
             View view = webView.getView();
@@ -89,7 +85,7 @@ public class HockeyApp extends CordovaPlugin {
 
     @Override
     public Object onMessage(String id, Object data) {
-        if (id.equals(XWALK_SCREENSHOT_BITMAP_MSG)) {
+        if (id.equals(XWALK_SCREENSHOT_BITMAP_MSG) && data != null) {
             bitmap = (Bitmap)data;
             synchronized (monitor) {
                 monitor.notify();                
