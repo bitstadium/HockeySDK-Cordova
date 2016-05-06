@@ -71,6 +71,7 @@ public class HockeyApp extends CordovaPlugin {
                     monitor.wait(XWALK_SCREENSHOT_WAIT_MS);
                 }
             } catch (InterruptedException ex) {
+                ex.printStackTrace();
                 Thread.currentThread().interrupt();
             }
         } else {
