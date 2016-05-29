@@ -64,7 +64,6 @@ public class HockeyApp extends CordovaPlugin {
         }
 
         if (isCrosswalk) {
-            long start = System.currentTimeMillis();
             webView.getPluginManager().postMessage(XWALK_SCREENSHOT_CAPTURE_MSG, this);
             try {
                 synchronized (monitor) {
