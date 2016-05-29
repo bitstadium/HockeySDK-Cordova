@@ -74,6 +74,34 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void) composeFeedback:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult = nil;
+    
+    if(initialized == YES) {
+        NSMutableArray* items = [NSMutableArray array];
+        
+        BOOL attachScreenshot = [[command argumentAtIndex:0] boolValue];
+        if (attachScreenshot) {
+            UIImage* screenshot = [[BITHockeyManager sharedHockeyManager].feedbackManager screenshot];
+            [items addObject:screenshot];
+        }
+        
+        if ([command.arguments count] > 1) {
+            NSString* jsonData = [command argumentAtIndex:1];
+            NSData* data = [jsonData dataUsingEncoding:NSUTF8StringEncoding];
+            [items addObject:data];
+        }
+        
+        [[BITHockeyManager sharedHockeyManager].feedbackManager showFeedbackComposeViewWithPreparedItems:items];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, appid) first!"];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 - (void) checkForUpdate:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;

@@ -75,6 +75,14 @@ hockeyapp.feedback();
 
 You can call this method in response to a "Give Feedback" button, in a shake gesture handler, or wherever is appropriate for your app.
 
+#### Composing User Feedback With Data
+
+If you would like to include additional data to include with user feedback, you can call the following API and indicate whether to include a screen shot of the device and/or arbitrary data from your application at the time that the API is called:
+
+```javascript
+hockeyapp.composeFeedback(null, null, true, appData);
+``` 
+
 ### Checking For Updates
 
 If you would like your beta testers to be notified whenever a new version of your app is available (i.e. you uploaded a new build to HockeyApp), you can call the following method to check for an update and display a dialog if/when available:
@@ -119,6 +127,8 @@ The HockeyApp API is exposed to your app via the global `hockeyapp` object, whic
 
 * [**feedback**](#hockeyappfeedback) - Displays the feedback UI so that testers can send and receive feedback about the app.
 
+* [**composeFeedback**](#hockeyappcomposefeedback) - Displays the compose feedback UI and optionally attaches a screenshot and/or arbitrary data to the feedback report.
+
 * [**forceCrash**](#hockeyappforcecrash) - Immediately crashes the app. This is used strictly for testing the HockeyApp crash reporting capabilities.
 
 * [**start**](#hockeyappstart) - Initializes the HockeyApp plugin, and configures it with the approrpiate app ID and user settings (e.g. should crash reports be automatically submitted).
@@ -148,6 +158,32 @@ hockeyapp.feedback(): void
 ```
 
 Displays the feedback UI so that testers can send and receive feedback about the app.
+
+### hockeyapp.composeFeedback
+
+```javascript
+hockeyapp.composeFeedback(sucessCallback:function, errorCallback:function, attachScreenshot:boolean, data:any): void
+```
+
+Displays the compose feedback UI and optionally attaches a screenshot and/or arbitrary data to the feedback report.  If `attachScreenshot` is true, an image of the screen at the moment that `composeFeedback` is called and included as a JPEG attachment. The object in `data`, if present, will be serialized as text and included in a text attachment.
+
+#### Parameters
+
+1. **successCallback** - `Function` that will be triggered when the feedback action completes successfully.
+
+2. **errorCallback** - `Function` that will be triggered when the feedback action fails.
+
+3. **attachScreenshot** - `boolean` indicating whether to capture the device screen at the time the function is called.
+
+4. **data** - `any` *(optional)* object that will be serialized to JSON and sent with the feedback report as data. 
+
+
+##### *Using CrossWalk WebViews*
+
+When calling ```composeFeedback``` from an application that is hosted in a CrossWalk WebView, a blank screenshot will be attached to the report unless the following requirements are met:
+
+- The application references the cordova-plugin-crosswalk-engine plugin version 1.6.0 or above
+- The application links against the xwalk engine version 18 or above   
 
 ### hockeyapp.forceCrash
 

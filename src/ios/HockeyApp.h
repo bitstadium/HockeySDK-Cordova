@@ -10,6 +10,7 @@
 
 - (void)start:(CDVInvokedUrlCommand*)command;
 - (void)feedback:(CDVInvokedUrlCommand*)command;
+- (void)composeFeedback:(CDVInvokedUrlCommand*)command;
 - (void)checkForUpdate:(CDVInvokedUrlCommand*)command;
 - (void)forceCrash:(CDVInvokedUrlCommand*)command;
 - (void)addMetaData:(CDVInvokedUrlCommand*)command;
