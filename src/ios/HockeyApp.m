@@ -26,7 +26,7 @@
         // no-op this for now. Appears to do nothing on ios side?
         // NSString* ignoreDefaultHandler = [arguments objectAtIndex:4];
 
-        if ([autoSend isEqual:@"true"]) {
+        if ([autoSend boolValue] == YES) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
         }
         
