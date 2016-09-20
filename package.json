@@ -9,6 +9,18 @@
       "ios"
     ]
   },
+  "engines": {
+    "cordovaDependencies": {
+      "2.2.2": {
+        "cordova": ">=4.2.0",
+        "cordova-android": ">=4.0.0",
+        "cordova-ios": ">=3.8.0"
+      },
+      "3.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bitstadium/HockeySDK-Cordova.git"
