@@ -49,6 +49,9 @@
                 <param name="ios-package" value="HockeyApp" />
             </feature>
         </config-file>
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+            <string>This app needs access to your Photo Library to include a screenshot with user feedback.</string>
+        </config-file>
         <header-file src="src/ios/HockeyApp.h" />
         <source-file src="src/ios/HockeyApp.m" />
         <resource-file src="src/ios/HockeySDK.embeddedframework/HockeySDK.framework/Resources/HockeySDKResources.bundle" />
