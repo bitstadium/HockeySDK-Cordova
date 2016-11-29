@@ -98,8 +98,6 @@ You can call this method in your `deviceready` handler, in a "Check for update" 
  
 ### Tracking Custom Events
 
-*NOTE: Using this feature currently requires being registered with the HockeyApp [preseason program](http://hockeyapp.net/preseason/).*
-
 By default, once you've called the `hockeyapp.start()` method, your app will begin automatically collecting basic metrics for daily and monthly users and sessions. However, it is very likely that you will want to track custom app events (e.g. "View_Cart", "Added_Item") in order to understand how your users are engaging with your app at a more granular/actionable level. In order to instrument your app to capture this data for both beta and production collection, simply call the following method where appropriate in your app:
 
 ```javascript
