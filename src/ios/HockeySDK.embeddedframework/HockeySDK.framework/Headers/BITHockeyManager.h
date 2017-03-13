@@ -85,6 +85,9 @@
 
  */
 
+#import "HockeySDKNullability.h"
+NS_ASSUME_NONNULL_BEGIN
+
 @interface BITHockeyManager: NSObject
 
 #pragma mark - Public Methods
@@ -138,7 +141,7 @@
  @param appIdentifier The app identifier that should be used.
  @param delegate `nil` or the class implementing the option protocols
  */
-- (void)configureWithIdentifier:(NSString *)appIdentifier delegate:(id<BITHockeyManagerDelegate>)delegate;
+- (void)configureWithIdentifier:(NSString *)appIdentifier delegate:(nullable id<BITHockeyManagerDelegate>)delegate;
 
 
 /**
@@ -175,7 +178,7 @@
  @param liveIdentifier The app identifier for the app store configurations.
  @param delegate `nil` or the class implementing the optional protocols
  */
-- (void)configureWithBetaIdentifier:(NSString *)betaIdentifier liveIdentifier:(NSString *)liveIdentifier delegate:(id<BITHockeyManagerDelegate>)delegate;
+- (void)configureWithBetaIdentifier:(NSString *)betaIdentifier liveIdentifier:(NSString *)liveIdentifier delegate:(nullable id<BITHockeyManagerDelegate>)delegate;
 
 
 /**
@@ -211,7 +214,7 @@
  @see BITUpdateManagerDelegate
  @see BITFeedbackManagerDelegate
  */
-@property (nonatomic, weak) id<BITHockeyManagerDelegate> delegate;
+@property (nonatomic, weak, nullable) id<BITHockeyManagerDelegate> delegate;
 
 
 /**
@@ -454,6 +457,12 @@
 ///-----------------------------------------------------------------------------
 
 /**
+ This property is used indicate the amount of verboseness and severity for which
+ you want to see log messages in the console.
+ */
+@property (nonatomic, assign) BITLogLevel logLevel;
+
+/**
  Flag that determines whether additional logging output should be generated
  by the manager and all modules.
  
@@ -464,7 +473,33 @@
  
  *Default*: _NO_
  */
-@property (nonatomic, assign, getter=isDebugLogEnabled) BOOL debugLogEnabled;
+@property (nonatomic, assign, getter=isDebugLogEnabled) BOOL debugLogEnabled DEPRECATED_MSG_ATTRIBUTE("Use logLevel instead!");
+
+/**
+ Set a custom block that handles all the log messages that are emitted from the SDK.
+
+ You can use this to reroute the messages that would normally be logged by `NSLog();`
+ to your own custom logging framework.
+
+ An example of how to do this with NSLogger:
+ 
+ ```
+ [[BITHockeyManager sharedHockeyManager] setLogHandler:^(BITLogMessageProvider messageProvider, BITLogLevel logLevel, const char *file, const char *function, uint line) {
+    LogMessageRawF(file, (int)line, function, @"HockeySDK", (int)logLevel-1, messageProvider());
+ }];
+ ```
+
+ or with CocoaLumberjack:
+ 
+ ```
+ [[BITHockeyManager sharedHockeyManager] setLogHandler:^(BITLogMessageProvider messageProvider, BITLogLevel logLevel, const char *file, const char *function, uint line) {
+    [DDLog log:YES message:messageProvider() level:ddLogLevel flag:(DDLogFlag)(1 << (logLevel-1)) context:<#CocoaLumberjackContext#> file:file function:function line:line tag:nil];
+ }];
+ ```
+ 
+ @param logHandler The block of type BITLogHandler that will process all logged messages.
+ */
+- (void)setLogHandler:(BITLogHandler)logHandler;
 
 
 ///-----------------------------------------------------------------------------
@@ -512,7 +547,7 @@
  @see userEmail
  @see `[BITHockeyManagerDelegate userIDForHockeyManager:componentManager:]`
  */
-@property (nonatomic, retain) NSString *userID;
+@property (nonatomic, copy, nullable) NSString *userID;
 
 
 /** Set the user name that should used in the SDK components
@@ -537,7 +572,7 @@
  @see userEmail
  @see `[BITHockeyManagerDelegate userNameForHockeyManager:componentManager:]`
  */
-@property (nonatomic, retain) NSString *userName;
+@property (nonatomic, copy, nullable) NSString *userName;
 
 
 /** Set the users email address that should used in the SDK components
@@ -560,9 +595,9 @@
 
  @see userID
  @see userName
- @see `[BITHockeyManagerDelegate userEmailForHockeyManager:componentManager:]`
+ @see [BITHockeyManagerDelegate userEmailForHockeyManager:componentManager:]
  */
-@property (nonatomic, retain) NSString *userEmail;
+@property (nonatomic, copy, nullable) NSString *userEmail;
 
 
 ///-----------------------------------------------------------------------------
@@ -580,3 +615,5 @@
 - (NSString *)build;
 
 @end
+
+NS_ASSUME_NONNULL_END
