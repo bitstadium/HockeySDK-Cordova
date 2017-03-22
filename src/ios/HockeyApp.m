@@ -28,6 +28,7 @@
 
         if ([autoSend boolValue] == YES) {
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
+            [[NSUserDefaults standardUserDefaults] setInteger:BITCrashManagerStatusAutoSend forKey:@"BITCrashManagerStatus"];
         }
         
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token
