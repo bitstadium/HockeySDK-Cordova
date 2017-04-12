@@ -9,6 +9,7 @@
     self = [super init];
     initialized = NO;
     crashMetaData = [NSMutableDictionary new];
+    shouldCreateNewFeedbackThread = NO;
     return self;
 }
 
@@ -22,7 +23,7 @@
     } else if ([arguments count] > 1) {
         NSString* token = [arguments objectAtIndex:0];
         NSString* autoSend = [arguments objectAtIndex:3];
-        
+        NSString* createNewFeedbackThread = [arguments objectAtIndex:5];
         // no-op this for now. Appears to do nothing on ios side?
         // NSString* ignoreDefaultHandler = [arguments objectAtIndex:4];
 
@@ -30,11 +31,15 @@
             [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus:BITCrashManagerStatusAutoSend];
             [[NSUserDefaults standardUserDefaults] setInteger:BITCrashManagerStatusAutoSend forKey:@"BITCrashManagerStatus"];
         }
-        
+
+        if ([createNewFeedbackThread boolValue] == YES) {
+            shouldCreateNewFeedbackThread = YES;
+        }
+
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token
                                                                delegate:self];
         [[BITHockeyManager sharedHockeyManager] startManager];
-        
+
         // Set authentication mode prior to verifying the user
         NSInteger authType = BITAuthenticatorIdentificationTypeAnonymous;
         [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:BITAuthenticatorIdentificationTypeHockeyAppUser];
@@ -42,11 +47,11 @@
             NSString *authTypeString = [arguments objectAtIndex:1];
             authType = [authTypeString intValue];
             NSString *appSecret = [arguments objectAtIndex:2];
-            
+
             [[BITHockeyManager sharedHockeyManager].authenticator setAuthenticationSecret:appSecret];
             [[BITHockeyManager sharedHockeyManager].authenticator setIdentificationType:authType];
         }
-        
+
         if (authType == BITAuthenticatorIdentificationTypeAnonymous) {
             [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
             initialized = YES;
@@ -78,22 +83,22 @@
 - (void) composeFeedback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    
+
     if(initialized == YES) {
         NSMutableArray* items = [NSMutableArray array];
-        
+
         BOOL attachScreenshot = [[command argumentAtIndex:0] boolValue];
         if (attachScreenshot) {
             UIImage* screenshot = [[BITHockeyManager sharedHockeyManager].feedbackManager screenshot];
             [items addObject:screenshot];
         }
-        
+
         if ([command.arguments count] > 1) {
             NSString* jsonData = [command argumentAtIndex:1];
             NSData* data = [jsonData dataUsingEncoding:NSUTF8StringEncoding];
             [items addObject:data];
         }
-        
+
         [[BITHockeyManager sharedHockeyManager].feedbackManager showFeedbackComposeViewWithPreparedItems:items];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
@@ -123,7 +128,7 @@
 - (void) addMetaData:(CDVInvokedUrlCommand *)command {
     NSData* arguments = [[command.arguments objectAtIndex:0] dataUsingEncoding:NSUTF8StringEncoding];
     CDVPluginResult* pluginResult = nil;
-    
+
     if(initialized == YES) {
         NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"crashMetaData.txt"];
@@ -149,7 +154,7 @@
             [file writeData:[crashLogString dataUsingEncoding:NSUTF8StringEncoding]];
             [file closeFile];
         }
-        
+
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     else {
@@ -173,7 +178,7 @@
     } else {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started, call hockeyapp.start(successcb, errorcb, hockeyapp_id) first!"];
     }
-    
+
     [self.commandDelegate sendPluginResult:pluginResult
                                 callbackId:command.callbackId];
 }
@@ -185,8 +190,14 @@
     NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"crashMetaData.txt"];
 
     NSString *logData = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:nil];
-    
+
     return logData;
+}
+
+#pragma mark - BITFeedbackManagerDelegate
+
+- (BOOL)forceNewFeedbackThreadForFeedbackManager:(BITFeedbackManager *)feedbackManager{
+    return shouldCreateNewFeedbackThread;
 }
 
 @end

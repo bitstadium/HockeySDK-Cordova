@@ -5,6 +5,7 @@
 
 @interface HockeyApp : CDVPlugin <BITHockeyManagerDelegate> {
     BOOL initialized;
+    BOOL shouldCreateNewFeedbackThread;
     NSMutableDictionary *crashMetaData;
 }
 
