@@ -248,7 +248,7 @@ Logs an app-specific event for analytic purposes.
 
 3. **eventName** - The name (e.g. "ITEM_ADDED") of the custom event that should be logged.
 
-###hockeyapp.setUserEmail
+### hockeyapp.setUserEmail
 
 ```javascript
 hockeyapp.setUserEmail(success, failure, userEmail)
