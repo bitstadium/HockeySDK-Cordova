@@ -8,6 +8,8 @@
 {
     self = [super init];
     initialized = NO;
+    userEmail = nil;
+    userName = nil;
     crashMetaData = [NSMutableDictionary new];
     shouldCreateNewFeedbackThread = NO;
     return self;
@@ -66,6 +68,21 @@
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
+
+- (void)setUserEmail:(CDVInvokedUrlCommand*)command {
+    NSString* emailArgumentValue = [command argumentAtIndex:0];
+    userEmail = emailArgumentValue;
+
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
+- (void)setUserName:(CDVInvokedUrlCommand*)command {
+    NSString* nameArgumentValue = [command argumentAtIndex:0];
+    userName = nameArgumentValue;
+
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
+}
+
 
 - (void) feedback:(CDVInvokedUrlCommand*)command
 {
@@ -183,6 +200,16 @@
                                 callbackId:command.callbackId];
 }
 
+#pragma mark - BITHockeyManagerDelegate
+
+- (NSString *)userEmailForHockeyManager:(BITHockeyManager *)hockeyManager componentManager:(BITHockeyBaseManager *)componentManager {
+    return userEmail;
+}
+
+- (NSString *)userNameForHockeyManager:(BITHockeyManager *)hockeyManager componentManager:(BITHockeyBaseManager *)componentManager {
+    return userName;
+}
+
 #pragma mark - BITCrashManagerDelegate
 
 - (NSString *)applicationLogForCrashManager:(BITCrashManager *)crashManager {
@@ -196,7 +223,7 @@
 
 #pragma mark - BITFeedbackManagerDelegate
 
-- (BOOL)forceNewFeedbackThreadForFeedbackManager:(BITFeedbackManager *)feedbackManager{
+- (BOOL)forceNewFeedbackThreadForFeedbackManager:(BITFeedbackManager *)feedbackManager {
     return shouldCreateNewFeedbackThread;
 }
 
