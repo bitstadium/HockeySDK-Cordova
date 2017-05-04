@@ -11,9 +11,11 @@ import org.json.JSONObject;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.FeedbackManager;
+import net.hockeyapp.android.FeedbackManagerListener;
 import net.hockeyapp.android.LoginManager;
 import net.hockeyapp.android.LoginManagerListener;
 import net.hockeyapp.android.metrics.MetricsManager;
+import net.hockeyapp.android.objects.FeedbackMessage;
 import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 
@@ -100,8 +102,9 @@ public class HockeyApp extends CordovaPlugin {
             appId = args.optString(0);
             boolean autoSend = args.optBoolean(3);
             boolean ignoreDefaultHandler = args.optBoolean(4, false);
-            
-            FeedbackManager.register(cordova.getActivity(), appId);
+            boolean shouldCreateNewFeedbackThread = args.optBoolean(5, false);
+
+            FeedbackManager.register(cordova.getActivity(), appId, shouldCreateNewFeedbackThread ? new SingleThreadFeedbackManagerListener() : null);
             this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
             
             MetricsManager.register(cordova.getActivity(), cordova.getActivity().getApplication(), appId);
@@ -158,6 +161,20 @@ public class HockeyApp extends CordovaPlugin {
         
         if (action.equals("checkForUpdate")) {
             UpdateManager.register(cordova.getActivity(), appId);
+            callbackContext.success();
+            return true;
+        }
+
+        if (action.equals("setUserEmail")) {
+            String userEmail = args.optString(0);
+            FeedbackManager.setUserEmail(userEmail);
+            callbackContext.success();
+            return true;
+        }
+
+        if (action.equals("setUserName")) {
+            String userName = args.optString(0);
+            FeedbackManager.setUserName(userName);
             callbackContext.success();
             return true;
         }
@@ -283,6 +300,18 @@ public class HockeyApp extends CordovaPlugin {
     @Override
     public void onResume(boolean multitasking) {
         Tracking.startUsage(cordova.getActivity());            
+    }
+}
+
+class SingleThreadFeedbackManagerListener extends FeedbackManagerListener {
+    @Override
+    public boolean feedbackAnswered(FeedbackMessage latestMessage){
+        return true;
+    }
+
+    @Override
+    public boolean shouldCreateNewFeedbackThread(){
+        return true;
     }
 }
 

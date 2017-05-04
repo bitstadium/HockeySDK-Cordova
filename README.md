@@ -134,6 +134,10 @@ The HockeyApp API is exposed to your app via the global `hockeyapp` object, whic
 
 * [**trackEvent**](#hockeyapptrackevent) - Logs an app-specific event for analytic purposes.
 
+* [**setUserEmail**](#hockeyappsetuseremail) - Set the users email address.
+
+* [**setUserName**](#hockeyappsetusername) - Set the user name.
+
 ### hockeyapp.addMetaData
 
 ```javascript
@@ -226,6 +230,8 @@ Initializes the HockeyApp plugin, and configures it with the appropriate app ID 
 
 7. **appSecret** - The app secret as provided by the HockeyApp portal. This parameter only needs to be set if you're setting the `loginMode` parameter to `EMAIL_ONLY`.
 
+8. **shouldCreateNewFeedbackThread** - Indicates if a new thread should be created for each new feedback message. Setting it to `true` will force a new thread whenever a new message is sent as opposed to the default resume thread behaviour.
+
 ### hockeyapp.trackEvent
 
 ```javascript
@@ -241,6 +247,40 @@ Logs an app-specific event for analytic purposes.
 2. **errorCallback** - `Function` that will be triggered when tracking the event failed for some reason.
 
 3. **eventName** - The name (e.g. "ITEM_ADDED") of the custom event that should be logged.
+
+### hockeyapp.setUserEmail
+
+```javascript
+hockeyapp.setUserEmail(success, failure, userEmail)
+```
+
+#### Parameters
+
+1. **success** - `Function` that will be triggered when the event has been successfully tracked.
+
+2. **failure** - `Function` that will be triggered when tracking the event failed for some reason.
+
+3. **userEmail** - The user's email address.
+
+Right now this is used by the `BITCrashManager` to attach to a crash report.
+ `BITFeedbackManager` uses it too for assigning the user to a discussion thread.
+
+ ### hockeyapp.setUserName
+
+```javascript
+hockeyapp.setUserName(success, failure, userName)
+```
+
+#### Parameters
+
+1. **success** - `Function` that will be triggered when the event has been successfully tracked.
+
+2. **failure** - `Function` that will be triggered when tracking the event failed for some reason.
+
+3. **userName** - The user's name.
+
+Right now this is used by the `BITCrashManager` to attach to a crash report.
+ `BITFeedbackManager` uses it too for assigning the user to a discussion thread.
 
 ## PhoneGap Build
 
