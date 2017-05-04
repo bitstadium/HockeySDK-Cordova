@@ -199,7 +199,7 @@ Immediately crashes the app. This is used strictly for testing the HockeyApp cra
 ### hockeyapp.start
 
 ```javascript
-hockeyapp.start(successCallback: function, errorCallback: function, appId: string, autoSend?: boolean, ignoreDefaultHandler?: boolean, loginMode?: hockeyapp.loginMode, appSecret?: string): void
+hockeyapp.start(successCallback: function, errorCallback: function, appId: string, autoSend?: boolean, ignoreDefaultHandler?: boolean, createNewFeedbackThread?: boolean, loginMode?: hockeyapp.loginMode, appSecret?: string): void
 ```
 
 Initializes the HockeyApp plugin, and configures it with the appropriate app ID and user settings (e.g. should crash reports be automatically submitted).
@@ -216,7 +216,9 @@ Initializes the HockeyApp plugin, and configures it with the appropriate app ID 
 
 5. **ignoreDefaultHandler** - Specifies whether you would like to display the standard dialog when the app is about to crash. This parameter is only relevant on Android, and therefore, you can set it to anything on iOS. Defaults to `false`.
 
-6. **loginMode** - The mechanism to use in order to authenticate users. Defaults to `hockeyapp.loginMode.ANONYMOUS`. The `hockeyapp.loginMode` enum provides the following available options:
+6. **createNewFeedbackThread** - Indicates if a new thread should be created for each new feedback message. Setting it to `true` will force a new thread whenever a new message is sent as opposed to the default resume thread behaviour.
+
+7. **loginMode** - The mechanism to use in order to authenticate users. Defaults to `hockeyapp.loginMode.ANONYMOUS`. The `hockeyapp.loginMode` enum provides the following available options:
 
     - `ANONYMOUS` - The end user isn't authenticated at all.
     
@@ -228,9 +230,7 @@ Initializes the HockeyApp plugin, and configures it with the appropriate app ID 
 
     *NOTE: Only the `ANONYMOUS` login mode is supported on iOS, and therefore, you can only use the other modes within Android apps.*
 
-7. **appSecret** - The app secret as provided by the HockeyApp portal. This parameter only needs to be set if you're setting the `loginMode` parameter to `EMAIL_ONLY`.
-
-8. **shouldCreateNewFeedbackThread** - Indicates if a new thread should be created for each new feedback message. Setting it to `true` will force a new thread whenever a new message is sent as opposed to the default resume thread behaviour.
+8. **appSecret** - The app secret as provided by the HockeyApp portal. This parameter only needs to be set if you're setting the `loginMode` parameter to `EMAIL_ONLY`.
 
 ### hockeyapp.trackEvent
 

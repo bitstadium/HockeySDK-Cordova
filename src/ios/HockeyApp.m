@@ -83,7 +83,6 @@
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
-
 - (void) feedback:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
