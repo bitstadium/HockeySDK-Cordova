@@ -1,13 +1,12 @@
 var exec = require('cordova/exec');
 
 var hockeyapp = {
-    start: function(success, failure, appId, autoSend, ignoreDefaultHandler, loginMode, appSecret, shouldCreateNewFeedbackThread) {
+    start: function(success, failure, appId, autoSend, ignoreDefaultHandler, createNewFeedbackThread, loginMode, appSecret) {
         autoSend = (autoSend === true || autoSend === "true");
         ignoreDefaultHandler = (ignoreDefaultHandler === true || ignoreDefaultHandler === "true");
         loginMode = loginMode || hockeyapp.loginMode.ANONYMOUS;
         appSecret = appSecret || '';
-        shouldCreateNewFeedbackThread= (shouldCreateNewFeedbackThread === true || shouldCreateNewFeedbackThread === "true");
-
+        createNewFeedbackThread = (createNewFeedbackThread === true || createNewFeedbackThread === "true");
 
         // Requesting loginMode.EMAIL_ONLY without an appSecret is not permitted
         if (loginMode === hockeyapp.loginMode.EMAIL_ONLY && appSecret.trim() === '') {
@@ -17,13 +16,13 @@ var hockeyapp = {
             return;
         }
 
-        exec(success, failure, "HockeyApp", "start", [appId, loginMode, appSecret, autoSend, ignoreDefaultHandler,  shouldCreateNewFeedbackThread]);
+        exec(success, failure, "HockeyApp", "start", [appId, loginMode, appSecret, autoSend, ignoreDefaultHandler,  createNewFeedbackThread]);
     },
     setUserEmail: function (success, failure, userEmail) {
-      exec(success, failure, "HockeyApp", "setUserEmail", [ userEmail ]);
+      exec(success, failure, "HockeyApp", "setUserEmail", [userEmail]);
     },
     setUserName: function (success, failure, userName) {
-      exec(success, failure, "HockeyApp", "setUserName", [ userName ]);
+      exec(success, failure, "HockeyApp", "setUserName", [userName]);
     },
     feedback: function (success, failure) {
         exec(success, failure, "HockeyApp", "feedback", []);
