@@ -26,6 +26,8 @@
         NSString* token = [arguments objectAtIndex:0];
         NSString* autoSend = [arguments objectAtIndex:3];
         NSString* createNewFeedbackThread = [arguments objectAtIndex:5];
+        NSString* checkForUpdateModeString = [arguments objectAtIndex:6];
+        NSInteger checkForUpdateMode = [checkForUpdateModeString intValue];
         // no-op this for now. Appears to do nothing on ios side?
         // NSString* ignoreDefaultHandler = [arguments objectAtIndex:4];
 
@@ -40,6 +42,7 @@
 
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:token
                                                                delegate:self];
+        [[BITHockeyManager sharedHockeyManager] updateManager].updateSetting = checkForUpdateMode;
         [[BITHockeyManager sharedHockeyManager] startManager];
 
         // Set authentication mode prior to verifying the user
