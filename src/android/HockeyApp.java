@@ -45,6 +45,7 @@ public class HockeyApp extends CordovaPlugin {
     public static final long XWALK_SCREENSHOT_WAIT_MS = 5000;
     public static final String XWALK_SCREENSHOT_CAPTURE_MSG = "captureXWalkBitmap";
     public static final String XWALK_SCREENSHOT_BITMAP_MSG = "onGotXWalkBitmap";
+    private static final int CHECK_UPDATE_ON_STARTUP = 0;
     
     public static boolean initialized = false;
     public static String appId;
@@ -103,10 +104,14 @@ public class HockeyApp extends CordovaPlugin {
             boolean autoSend = args.optBoolean(3);
             boolean ignoreDefaultHandler = args.optBoolean(4, false);
             boolean shouldCreateNewFeedbackThread = args.optBoolean(5, false);
-
             FeedbackManager.register(cordova.getActivity(), appId, shouldCreateNewFeedbackThread ? new SingleThreadFeedbackManagerListener() : null);
             this.crashListener = new ConfiguredCrashManagerListener(autoSend, ignoreDefaultHandler);
             
+            final int checkForUpdateMode = args.optInt(6, CHECK_UPDATE_ON_STARTUP);
+            if (checkForUpdateMode == CHECK_UPDATE_ON_STARTUP) {
+                UpdateManager.register(cordova.getActivity(), appId);
+            }
+
             MetricsManager.register(cordova.getActivity(), cordova.getActivity().getApplication(), appId);
             CrashManager.register(cordova.getActivity(), appId, this.crashListener);
             
