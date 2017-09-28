@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="cordova-plugin-hockeyapp" version="2.2.4" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-hockeyapp" version="5.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>HockeyApp</name>
     <description>Cordova plugin for HockeyApp</description>
     <license>Apache 2.0</license>
@@ -40,7 +40,7 @@
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
-        <resource-file src="src/android/HockeySDK-Android/HockeySDK-4.1.4.aar" target="libs/HockeySDK-4.1.4.aar" />
+        <resource-file src="src/android/HockeySDK-Android/HockeySDK-5.0.1.aar" target="libs/HockeySDK-5.0.1.aar" />
     </platform>
     
     <platform name="ios">
