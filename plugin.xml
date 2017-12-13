@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="cordova-plugin-hockeyapp" version="5.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-hockeyapp" version="5.1.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>HockeyApp</name>
     <description>Cordova plugin for HockeyApp</description>
     <license>Apache 2.0</license>
     <keywords>cordova,hockeyapp</keywords>
-    <author>Paul Panserrieu</author>
+    <author>Microsoft</author>
     <repo>https://github.com/bitstadium/HockeySDK-Cordova</repo>
     <issue>https://github.com/bitstadium/HockeySDK-Cordova/issues</issue>
    
@@ -40,7 +40,7 @@
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
-        <resource-file src="src/android/HockeySDK-Android/HockeySDK-5.0.2.aar" target="libs/HockeySDK-5.0.2.aar" />
+        <resource-file src="src/android/HockeySDK-Android/HockeySDK-5.0.4.aar" target="libs/HockeySDK-5.0.4.aar" />
     </platform>
     
     <platform name="ios">
@@ -59,7 +59,6 @@
         <framework src="libstdc++.dylib" />
         <framework src="libc++.dylib" />
         <framework src="libz.tbd" />
-        <framework src="AssetsLibrary.framework" />
         <framework src="CoreText.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="CoreGraphics.framework" />
