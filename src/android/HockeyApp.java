@@ -112,7 +112,7 @@ public class HockeyApp extends CordovaPlugin {
                 UpdateManager.register(cordova.getActivity(), appId);
             }
 
-            MetricsManager.register(cordova.getActivity(), cordova.getActivity().getApplication(), appId);
+            MetricsManager.register(cordova.getActivity().getApplication(), appId);
             CrashManager.register(cordova.getActivity(), appId, this.crashListener);
             
             // Verify the user
