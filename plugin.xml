@@ -9,7 +9,7 @@
     <issue>https://github.com/bitstadium/HockeySDK-Cordova/issues</issue>
    
     <engines>
-        <engine name="cordova-android" version=">=4.0.0" />
+        <engine name="cordova-android" version=">=7.0.0" />
         <engine name="cordova-plugman" version=">=4.2.0" />
         <engine name="cordova-ios" version=">=3.8.0" />
     </engines>
@@ -21,19 +21,19 @@
     </js-module>
     
     <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
+        <config-file target="app/src/main/res/xml/config.xml" parent="/*">
             <feature name="HockeyApp">
                 <param name="android-package" value="com.zengularity.cordova.hockeyapp.HockeyApp" />
             </feature>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application">
             <activity android:name="net.hockeyapp.android.FeedbackActivity" />
             <activity android:name="net.hockeyapp.android.UpdateActivity" />
             <activity android:name="net.hockeyapp.android.LoginActivity" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">
+        <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
