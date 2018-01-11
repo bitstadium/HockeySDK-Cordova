@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-hockeyapp",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Cordova plugin for HockeyApp",
   "cordova": {
     "id": "cordova-plugin-hockeyapp",
