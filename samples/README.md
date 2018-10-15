@@ -18,9 +18,11 @@ npm install
 cordova prepare
 ```
 
-2) Open `platforms/ios/cordova-hockey-app.xcworkspace` in Xcode and select provisioning profile/change bundle id for project. In addition, you can set target for `cordova-hockey-app`.
+2) Connect iOS device
 
-3) Build and run project
+3) Open `platforms/ios/cordova-hockey-app.xcworkspace` in Xcode and select provisioning profile/change bundle id for project. In addition, you can set target for `cordova-hockey-app`.
+
+4) Build and run project
 ```
 cordova build ios --buildFlag='-UseModernBuildSystem=0'
 cordova run ios
@@ -28,6 +30,6 @@ cordova run ios
 
 *Note:* project contains symbolic links to SDK. If you want to use production SDK version, remove and install plugin again:
 ```
-cordova plugin remove ordova-plugin-hockeyapp --save
+cordova plugin remove cordova-plugin-hockeyapp --save
 cordova plugin add cordova-plugin-hockeyapp@latest --save
 ```
