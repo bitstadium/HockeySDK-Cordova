@@ -26,7 +26,7 @@ cordova build ios --buildFlag='-UseModernBuildSystem=0'
 cordova run ios
 ```
 
-*Note:* project contains symbolic links to SDK. If you want to use production SDK version, execute
+*Note:* project contains symbolic links to SDK. If you want to use production SDK version, remove and install plugin again:
 ```
 cordova plugin remove ordova-plugin-hockeyapp --save
 cordova plugin add cordova-plugin-hockeyapp@latest --save
