@@ -35,6 +35,13 @@ var app = {
 
         var buttons = document.getElementById("buttons");
         buttons.style.visibility = "visible";
+
+        cordova.getAppVersion.getVersionNumber().then((versionNumber) => {
+            cordova.getAppVersion.getVersionCode().then((version) => {
+                var versionElement = document.getElementById("version");
+                versionElement.innerText = `${versionNumber} (${version})`;
+            });
+        });
     },
 
     crashMe: function() {

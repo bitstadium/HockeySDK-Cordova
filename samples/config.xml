@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.microsoft.cordova-hockey-sdk-sample" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="1" id="com.microsoft.cordova-hockey-sdk-sample" ios-CFBundleVersion="1" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>cordova-hockey-sdk-sample</name>
     <description>
         A sample Apache Cordova application with HockeyApp SDK.
@@ -25,4 +25,5 @@
     </platform>
     <plugin name="cordova-plugin-hockeyapp" spec="file:sdk" />
     <engine name="ios" spec="^4.5.5" />
+    <plugin name="cordova-plugin-app-version" spec="0.1.9" />
 </widget>
