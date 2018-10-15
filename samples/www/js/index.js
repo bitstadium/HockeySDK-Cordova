@@ -87,9 +87,12 @@ var app = {
         console.log("Custom event");
 
         var status = document.getElementById("status");
-        status.innerText = "Custom event";
+        var eventText = prompt("Event:", "Custom event");
 
-        hockeyapp.trackEvent(null, null, "MyTestEvent");
+        if (eventText) {
+            hockeyapp.trackEvent(null, null, eventText);
+            status.innerText = "Custom event: '" + eventText + "'";
+        }
     }
 };
 
