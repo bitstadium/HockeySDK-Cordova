@@ -15,7 +15,7 @@ onDeviceReady: function() {
 1) Install packages and initialize platform:
 ```
 npm install
-cordova platform add ios
+cordova prepare
 ```
 
 2) Open `platforms/ios/cordova-hockey-app.xcworkspace` in Xcode and select provisioning profile/change bundle id for project. In addition, you can set target for `cordova-hockey-app`.
