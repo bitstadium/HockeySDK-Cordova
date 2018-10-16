@@ -28,7 +28,7 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         console.log("Device Ready!");
-        hockeyapp.start(null, null, "<appid>");
+        hockeyapp.start(null, null, "<appId>");
 
         var status = document.getElementById("status");
         status.innerText = "Ready";
@@ -36,10 +36,10 @@ var app = {
         var buttons = document.getElementById("buttons");
         buttons.style.visibility = "visible";
 
-        cordova.getAppVersion.getVersionNumber().then((versionNumber) => {
-            cordova.getAppVersion.getVersionCode().then((version) => {
+        cordova.getAppVersion.getVersionNumber().then(function(versionNumber) {
+            cordova.getAppVersion.getVersionCode().then(function(version) {
                 var versionElement = document.getElementById("version");
-                versionElement.innerText = `${versionNumber} (${version})`;
+                versionElement.innerText = versionNumber + "(" + version + ")";
             });
         });
     },
