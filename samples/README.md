@@ -2,9 +2,9 @@
 This repository contains a sample app that allows for easy testing of the SDK and its functionality.
 
 ### Prerequisites
-1) Condova should be installed locally on your machine.
-2) Hockey application should be created on portal before testing.
-3) Minimum iOS version is 9.0. Minimum Android version is 4.4.
+1) Condova should be installed locally on your machine (recommended version 8+).
+2) Please create a new app in the HockeyApp portal before you start testing with the sample app.
+3) Minimum iOS version is 9.0. Minimum Android version is 4.4 (api 19).
 
 ### Configuration
 To use this app, replace `<appid>` with real appId of your Hockey application here:
@@ -26,7 +26,7 @@ cordova prepare
 
 2) Connect device
 
-3) *For iOS only:* Open `platforms/ios/cordova-hockey-app.xcworkspace` in Xcode and select provisioning profile/change bundle id for project. In addition, you can set target for `cordova-hockey-app`.
+3) *For iOS only:* Open `platforms/ios/cordova-hockey-app.xcworkspace` in Xcode and change the bundle id and select a provisioning profile for the project. In addition, you can set target for `cordova-hockey-app`.
 
 4) Build and run project
 ```
