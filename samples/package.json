@@ -10,6 +10,7 @@
     "author": "Microsoft <appcentersdk@microsoft.com>",
     "license": "Apache-2.0",
     "dependencies": {
+        "cordova-android": "7.1.1",
         "cordova-ios": "^4.5.5",
         "cordova-plugin-app-version": "0.1.9",
         "cordova-plugin-hockeyapp": "file:sdk",
@@ -22,7 +23,8 @@
             "cordova-plugin-app-version": {}
         },
         "platforms": [
-            "ios"
+            "ios",
+            "android"
         ]
     }
 }
