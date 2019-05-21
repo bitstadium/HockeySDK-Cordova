@@ -40,7 +40,7 @@
 
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
         <source-file src="src/android/HockeyApp.java" target-dir="src/com/zengularity/cordova/hockeyapp" />
-        <lib-file src="src/android/HockeySDK-Android/HockeySDK-Android-5.1.0.aar" />
+        <lib-file src="src/android/HockeySDK-Android/HockeySDK-Android-5.2.0.aar" />
     </platform>
     
     <platform name="ios">
